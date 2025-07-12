@@ -3151,25 +3151,18 @@ function exportCleanDashboard() {
   </button>
 <div id="share-result" style="margin-top: 20px; font-size: 15px; color: #333;"></div>
 </div>
+
+
 <div style="text-align:center; margin-top: 10px;">
 <button onclick="setGitHubToken()" style="padding: 8px 16px; background-color: #777; color: white; border: none; border-radius: 5px; cursor: pointer;">
     🔑 ตั้งค่า GitHub Token
   </button>
 </div>
 
-
 <script>
 const GITHUB_USERNAME = "nonguest-work";
 const REPO_NAME = "dashborad-marketiing";
 const TARGET_FOLDER = "view";
-
-function setGithubToken() {
-  const token = prompt("กรุณาวาง GitHub Token ของคุณ:");
-  if (token) {
-    localStorage.setItem("GITHUB_TOKEN", token);
-    alert("บันทึก GitHub Token เรียบร้อยแล้ว");
-  }
-}
 
 async function uploadHTMLToGitHub(filename, htmlContent) {
   const GITHUB_TOKEN = localStorage.getItem("GITHUB_TOKEN");
@@ -3181,23 +3174,6 @@ async function uploadHTMLToGitHub(filename, htmlContent) {
   const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${TARGET_FOLDER}/${filename}`;
   const base64Content = btoa(unescape(encodeURIComponent(htmlContent)));
 
-  let sha = null;
-  try {
-    const getResponse = await fetch(apiUrl, {
-      headers: {
-        Authorization: `token ${GITHUB_TOKEN}`,
-        Accept: "application/vnd.github.v3+json",
-      },
-    });
-
-    if (getResponse.ok) {
-      const data = await getResponse.json();
-      sha = data.sha;
-    }
-  } catch (err) {
-    console.warn("ไม่พบไฟล์เดิม:", err);
-  }
-
   const response = await fetch(apiUrl, {
     method: "PUT",
     headers: {
@@ -3205,9 +3181,8 @@ async function uploadHTMLToGitHub(filename, htmlContent) {
       Accept: "application/vnd.github.v3+json",
     },
     body: JSON.stringify({
-      message: `Update ${filename}`,
+      message: `Add ${filename}`,
       content: base64Content,
-      ...(sha ? { sha } : {})
     }),
   });
 
@@ -3219,18 +3194,36 @@ async function uploadHTMLToGitHub(filename, htmlContent) {
   }
 }
 
-async function shareDashboard() {
-  const dashboardHTML = document.documentElement.outerHTML;
+function generateAndUploadDashboard() {
+  const resultBox = document.getElementById("share-result");
+  resultBox.innerText = "⏳ กำลังประมวลผลแดชบอร์ด...";
+
+  const clone = document.documentElement.cloneNode(true);
+  const removeList = [
+    '#uploader-panel', '#upload-section', 'input[type=file]',
+    '#download-section', 'script', '#share-button', '#share-section',
+    'button[onclick*="print"]'
+  ];
+  removeList.forEach(selector => {
+    clone.querySelectorAll(selector).forEach(el => el.remove());
+  });
+
+  const html = '<!DOCTYPE html>' + clone.outerHTML;
   const filename = "dashboard_" + new Date().toISOString().split("T")[0] + ".html";
-  try {
-    const url = await uploadHTMLToGitHub(filename, dashboardHTML);
-    alert("สร้างลิงก์สำเร็จ:\n" + url);
-    const linkDisplay = document.getElementById("link-result");
-    if (linkDisplay) {
-      linkDisplay.innerHTML = '<a href="' + url + '" target="_blank">' + url + '</a>';
-    }
-  } catch (err) {
-    alert("เกิดข้อผิดพลาด: " + err.message);
+
+  uploadHTMLToGitHub(filename, html).then(link => {
+    resultBox.innerHTML = `<b>✅ ลิงก์แดชบอร์ด:</b> <a href="${link}" target="_blank">${link}</a>`;
+  }).catch(err => {
+    resultBox.innerHTML = `<span style="color: red;">❌ ${err.message}</span>`;
+  });
+}
+
+// ตัวเลือกใส่ GITHUB_TOKEN
+function setGitHubToken() {
+  const token = prompt("กรุณาใส่ GitHub Token:");
+  if (token) {
+    localStorage.setItem("GITHUB_TOKEN", token);
+    alert("✅ บันทึก Token เรียบร้อย");
   }
 }
 </script>
