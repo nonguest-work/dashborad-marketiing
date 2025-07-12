@@ -1,0 +1,1829 @@
+<!DOCTYPE html><html lang="th" style="font-size: 16px;"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>รายงานการติดตามลูกค้ามุ่งหวังดิจิตอล - โตโยต้าพิธานปัตตานี</title>
+
+
+<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+
+        .print-section {
+            background: #e8f5e8;
+            padding: 15px 30px;
+            border-bottom: 1px solid #c3e6cb;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .print-options {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .print-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .print-info {
+            color: #155724;
+            font-size: 0.9rem;
+            margin-left: auto;
+        }
+
+        /* Print Styles - Optimized for A4 */
+        @media print {
+            @page {
+                size: A4;
+                margin: 12mm;
+            }
+
+            body {
+                background: white !important;
+                padding: 0 !important;
+                font-size: 10px !important;
+                line-height: 1.2 !important;
+                color: #000 !important;
+            }
+
+            .container {
+                background: white !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                max-width: none !important;
+                margin: 0 !important;
+            }
+
+            .print-section,
+            .tabs-container,
+            .loading,
+            .print-btn {
+                display: none !important;
+            }
+
+            .header {
+                background: #e74c3c !important;
+                color: white !important;
+                padding: 10px !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                page-break-inside: avoid;
+            }
+
+            .header::before {
+                display: none !important;
+            }
+
+            .header h1 {
+                font-size: 1.3rem !important;
+                margin-bottom: 5px !important;
+                line-height: 1.1 !important;
+            }
+
+            .header p {
+                font-size: 0.8rem !important;
+                margin: 0 !important;
+            }
+
+            .tab-content {
+                display: block !important;
+            }
+
+            .tab-content:not(.print-active) {
+                display: none !important;
+            }
+
+            .platform-header {
+                background: #f8f9fa !important;
+                color: #000 !important;
+                padding: 8px !important;
+                margin-bottom: 6px !important;
+                border: 1px solid #ddd !important;
+                page-break-inside: avoid;
+            }
+
+            .platform-header.facebook {
+                background: #e3f2fd !important;
+                border-color: #1877f2 !important;
+            }
+
+            .platform-header.tiktok {
+                background: #fce4ec !important;
+                border-color: #ff0050 !important;
+            }
+
+            .platform-header h2 {
+                font-size: 1.1rem !important;
+                margin-bottom: 3px !important;
+            }
+
+            .platform-period {
+                font-size: 0.75rem !important;
+            }
+
+            .summary-cards {
+                grid-template-columns: repeat(4, 1fr) !important;
+                gap: 6px !important;
+                padding: 6px 0 !important;
+                page-break-inside: avoid;
+                margin-bottom: 8px !important;
+            }
+
+            .summary-card {
+                padding: 6px !important;
+                border-radius: 3px !important;
+                background: white !important;
+                border: 1px solid #ddd !important;
+                box-shadow: none !important;
+                text-align: center !important;
+            }
+
+            .summary-card::before {
+                display: none !important;
+            }
+
+            .summary-card.facebook {
+                border-color: #1877f2 !important;
+                border-width: 2px !important;
+            }
+
+            .summary-card.tiktok {
+                border-color: #ff0050 !important;
+                border-width: 2px !important;
+            }
+
+            .summary-card.success {
+                border-color: #28a745 !important;
+                border-width: 2px !important;
+            }
+
+            .summary-card.quality {
+                border-color: #9b59b6 !important;
+                border-width: 2px !important;
+            }
+
+            .card-number {
+                font-size: 1.1rem !important;
+                margin-bottom: 3px !important;
+                font-weight: bold !important;
+                color: #000 !important;
+            }
+
+            .card-label {
+                font-size: 0.65rem !important;
+                color: #555 !important;
+                line-height: 1 !important;
+            }
+
+            .charts-section {
+                padding: 6px 0 !important;
+            }
+
+            .chart-container {
+                margin-bottom: 10px !important;
+                padding: 6px !important;
+                page-break-inside: avoid;
+                border: 1px solid #eee !important;
+            }
+
+            .chart-title {
+                font-size: 0.9rem !important;
+                margin-bottom: 5px !important;
+                font-weight: bold !important;
+            }
+
+            .monthly-details {
+                grid-template-columns: repeat(4, 1fr) !important;
+                gap: 4px !important;
+                padding: 6px 0 !important;
+            }
+
+            .month-card {
+                padding: 5px !important;
+                page-break-inside: avoid;
+                border: 1px solid #ddd !important;
+                break-inside: avoid;
+            }
+
+            .month-title {
+                font-size: 0.75rem !important;
+                margin-bottom: 4px !important;
+                padding-bottom: 2px !important;
+                border-bottom: 1px solid #eee !important;
+                text-align: center !important;
+            }
+
+            .month-stats {
+                grid-template-columns: 1fr !important;
+                gap: 2px !important;
+            }
+
+            .stat-item {
+                padding: 1px 0 !important;
+                font-size: 0.6rem !important;
+                border-bottom: none !important;
+            }
+
+            .stat-label {
+                color: #666 !important;
+            }
+
+            .stat-value {
+                color: #000 !important;
+                font-weight: bold !important;
+            }
+
+            .booking-details {
+                padding: 6px !important;
+                page-break-inside: avoid;
+                margin-bottom: 8px !important;
+            }
+
+            .booking-title {
+                font-size: 0.9rem !important;
+                margin-bottom: 6px !important;
+            }
+
+            .booking-list {
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 4px !important;
+            }
+
+            .booking-item {
+                padding: 4px !important;
+                font-size: 0.65rem !important;
+                border: 1px solid #ddd !important;
+                page-break-inside: avoid;
+            }
+
+            .booking-customer {
+                font-size: 0.7rem !important;
+                margin-bottom: 2px !important;
+            }
+
+            .overview-grid {
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 6px !important;
+                padding: 6px 0 !important;
+            }
+
+            .overview-card {
+                padding: 6px !important;
+                page-break-inside: avoid;
+                border: 1px solid #ddd !important;
+            }
+
+            .overview-card h3 {
+                font-size: 0.8rem !important;
+                margin-bottom: 4px !important;
+                padding-bottom: 2px !important;
+            }
+
+            .quality-meter {
+                margin: 4px 0 !important;
+            }
+
+            .quality-meter-label {
+                font-size: 0.65rem !important;
+                margin-bottom: 2px !important;
+            }
+
+            .quality-meter-bar {
+                height: 4px !important;
+            }
+
+            .comparison-chart {
+                height: 60px !important;
+                padding: 6px !important;
+            }
+
+            .bar {
+                width: 20px !important;
+                font-size: 0.5rem !important;
+                padding: 1px !important;
+            }
+
+            .bar-label {
+                font-size: 0.6rem !important;
+            }
+
+            .footer {
+                padding: 6px !important;
+                font-size: 0.6rem !important;
+                background: #2c3e50 !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                page-break-inside: avoid;
+                margin-top: 8px !important;
+            }
+
+            .page-break {
+                page-break-before: always;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            canvas {
+                max-width: 100% !important;
+                height: 150px !important;
+                page-break-inside: avoid;
+            }
+
+            .summary-cards,
+            .booking-details,
+            .chart-container {
+                page-break-inside: avoid;
+            }
+
+            .tab-content + .tab-content {
+                page-break-before: always;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            * {
+                overflow: visible !important;
+            }
+
+            /* แสดงผลแบบต่อเนื่องสำหรับ 12 เดือน */
+            .monthly-details {
+                grid-template-columns: repeat(6, 1fr) !important;
+                gap: 3px !important;
+            }
+
+            .month-card {
+                font-size: 0.55rem !important;
+                padding: 3px !important;
+            }
+        }
+
+        .tabs-container {
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            color: #6c757d;
+        }
+
+        .tab.active {
+            background: white;
+            color: #2c3e50;
+            border-bottom: 3px solid #e74c3c;
+        }
+
+        .tab.facebook.active {
+            border-bottom-color: #1877f2;
+        }
+
+        .tab.tiktok.active {
+            border-bottom-color: #ff0050;
+        }
+
+        .tab:hover:not(.active) {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .platform-header {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .platform-header.facebook {
+            background: linear-gradient(135deg, #1877f2 0%, #166fe5 100%);
+            color: white;
+        }
+
+        .platform-header.tiktok {
+            background: linear-gradient(135deg, #ff0050 0%, #e60045 100%);
+            color: white;
+        }
+
+        .platform-header h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .platform-period {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .summary-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+            transform: translate(50%, -50%) rotate(45deg);
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .summary-card.facebook {
+            border-left-color: #1877f2;
+        }
+
+        .summary-card.tiktok {
+            border-left-color: #ff0050;
+        }
+
+        .summary-card.success {
+            border-left-color: #27ae60;
+        }
+
+        .summary-card.quality {
+            border-left-color: #9b59b6;
+        }
+
+        .card-number {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .card-label {
+            font-size: 0.95rem;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .charts-section {
+            padding: 30px;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .booking-details {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .booking-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #27ae60;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .booking-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .booking-item {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #27ae60;
+            transition: all 0.3s ease;
+        }
+
+        .booking-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .booking-customer {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .booking-details-text {
+            font-size: 0.9rem;
+            color: #6c757d;
+            line-height: 1.4;
+        }
+
+        .monthly-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            padding: 30px;
+            background: #ecf0f1;
+        }
+
+        .month-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .month-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .month-card.no-data {
+            opacity: 0.5;
+            background: #f8f9fa;
+        }
+
+        .month-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .month-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            font-size: 0.85rem;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .stat-value.highlight {
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .stat-value.quality {
+            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 30px;
+        }
+
+        .overview-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .overview-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+        }
+
+        .comparison-chart {
+            height: 200px;
+            display: flex;
+            align-items: end;
+            justify-content: space-around;
+            background: linear-gradient(to top, #f8f9fa 0%, transparent 100%);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .comparison-bar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bar {
+            width: 40px;
+            background: linear-gradient(to top, #3498db, #2980b9);
+            border-radius: 5px 5px 0 0;
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+            padding: 5px;
+            min-height: 30px;
+        }
+
+        .bar.facebook {
+            background: linear-gradient(to top, #1877f2, #166fe5);
+        }
+
+        .bar.tiktok {
+            background: linear-gradient(to top, #ff0050, #e60045);
+        }
+
+        .bar-label {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .quality-meter {
+            margin: 15px 0;
+        }
+
+        .quality-meter-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .quality-meter-bar {
+            background: #ecf0f1;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .quality-meter-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .quality-meter-fill.facebook {
+            background: linear-gradient(90deg, #1877f2, #166fe5);
+        }
+
+        .quality-meter-fill.tiktok {
+            background: linear-gradient(90deg, #ff0050, #e60045);
+        }
+
+        .quality-meter-fill.overall {
+            background: linear-gradient(90deg, #9b59b6, #8e44ad);
+        }
+
+        .trending-up {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .trending-down {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #e74c3c;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        .upload-section {
+            background: #f8f9fa;
+            padding: 20px 30px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .upload-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .upload-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 12px 15px;
+            border: 2px dashed #6c757d;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .upload-input:hover {
+            border-color: #e74c3c;
+            background: #fff5f5;
+        }
+
+        .upload-input.dragover {
+            border-color: #e74c3c;
+            background: #fff5f5;
+            transform: scale(1.02);
+        }
+
+        .upload-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .upload-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .last-updated {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-left: auto;
+        }
+
+        .share-section {
+            background: #e8f4f8;
+            padding: 15px 30px;
+            border-bottom: 1px solid #bee5eb;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .share-options {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .share-info {
+            color: #0c5460;
+            font-size: 0.9rem;
+            margin-left: auto;
+        }
+
+        .viewer-mode .upload-section,
+        .viewer-mode .share-section {
+            display: none !important;
+        }
+
+        .viewer-mode .print-info::after {
+            content: " | 👁️ โหมดดูอย่างเดียว";
+            color: #6c757d;
+        }
+
+        .viewer-notice {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            margin: 0 30px 20px 30px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .summary-cards {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .monthly-details {
+                grid-template-columns: 1fr;
+                padding: 15px;
+            }
+
+            .overview-grid {
+                grid-template-columns: 1fr;
+                padding: 15px;
+            }
+
+            .print-section {
+                padding: 10px 15px;
+            }
+
+            .print-options {
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .print-btn {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+                flex: 1;
+                min-width: 120px;
+            }
+
+            .print-info {
+                margin-left: 0;
+                text-align: center;
+                font-size: 0.8rem;
+                margin-top: 10px;
+            }
+        }
+    </style>
+<style>
+@media screen {
+    .container {
+        width: 794px; /* A4 width in pixels at 96dpi */
+        margin: 0 auto;
+        zoom: 0.9;
+    }
+}
+</style>
+<style>
+.top-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    background: #fff;
+    z-index: 1000;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.dashboard-container {
+    margin-top: 140px;
+    padding: 20px;
+}
+@media print {
+    .top-navbar {
+        display: none !important;
+    }
+    .dashboard-container {
+        margin-top: 0 !important;
+    }
+}
+</style>
+<style>
+@media print {
+    .nav-tabs, .tab-pane {
+        display: block !important;
+    }
+    .tab-content .tab-pane {
+        display: block !important;
+        page-break-before: always;
+    }
+    .tab-pane + .tab-pane {
+        page-break-before: always;
+    }
+    .no-print {
+        display: none !important;
+    }
+    .print-btn {
+        display: none !important;
+    }
+    .container {
+        width: 794px !important;
+        margin: 0 auto;
+    }
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+}
+</style><style>
+@media print {
+    .tab-content .tab-pane * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        color: #000 !important;
+        background: transparent !important;
+        opacity: 1 !important;
+        filter: none !important;
+    }
+    canvas {
+        image-rendering: pixelated !important;
+        opacity: 1 !important;
+    }
+}
+</style>
+<style>
+.action-buttons-bar button {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.action-buttons-bar button:hover {
+    background-color: #e0e0e0;
+}
+@media print {
+    .action-buttons-bar {
+        display: none !important;
+    }
+}
+</style>
+<style>
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    .tab-pane {
+        display: block !important;
+        page-break-before: always;
+    }
+    .tab-pane:first-child {
+        page-break-before: auto;
+    }
+    body, #dashboard-panel {
+        width: 794px;
+        margin: 0 auto;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+}
+</style>
+<style>
+#main-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+#uploader-panel {
+  margin-bottom: 20px;
+}
+.container, #dashboard-panel {
+  width: 100% !important;
+}
+@media print {
+  body, #dashboard-panel {
+    width: 794px !important;
+    margin: 0 auto !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+}
+</style>
+<style>
+@media print {
+  .tab-pane {
+    display: block !important;
+    opacity: 1 !important;
+    transform: none !important;
+    page-break-before: always;
+  }
+  .tab-pane:first-child {
+    page-break-before: auto;
+  }
+  .no-print {
+    display: none !important;
+  }
+  body, #dashboard-panel {
+    width: 794px !important;
+    margin: 0 auto !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+}
+</style>
+</head>
+<body>
+<div id="main-wrapper" style="max-width: 1000px; margin: 0 auto;">
+
+<div id="dashboard-panel" style="margin-top: 40px;"><div class="container"><main class="dashboard-container"><div class="header">
+<h1>🚗 รายงานการติดตามลูกค้ามุ่งหวัง</h1>
+<p>การตลาดดิจิตอล Facebook &amp; TikTok | โตโยต้าพิธานปัตตานี | ปี 2568</p>
+</div><div class="loading" id="loading" style="display: none;">
+<div class="spinner"></div>
+<p id="loadingText">กำลังอัพเดทการแสดงผล...</p>
+</div><div class="data-period-info">
+<strong>📊 ช่วงข้อมูลปัจจุบัน:</strong>
+<span id="dataPeriodDisplay">ม.ค. - มิ.ย. 2568 (6 เดือน)</span> | 
+            <strong>📈 ระบบรองรับ:</strong> ข้อมูลทั้ง 12 เดือน (อัตโนมัติ) | 
+            <strong>📂 รองรับ:</strong> อัพโหลด Excel อัตโนมัติ
+        </div><div class="tabs-container">
+<div class="tabs">
+<button class="tab active" onclick="showTab('overview')">📊 ภาพรวม</button>
+<button class="tab facebook" onclick="showTab('facebook')">📘 Facebook</button>
+<button class="tab tiktok" onclick="showTab('tiktok')">🎵 TikTok</button>
+</div>
+</div><div class="tab-content active" id="overview" style="display: block;">
+<div class="overview-grid">
+<div class="overview-card">
+<h3>📈 สรุปผลรวม <span id="overviewMonthCount">(6 เดือน)</span></h3>
+<div class="summary-cards">
+<div class="summary-card">
+<div class="card-number" id="overviewTotal">594</div>
+<div class="card-label">ลูกค้าทั้งหมด</div>
+</div>
+<div class="summary-card quality">
+<div class="card-number" id="overviewQuality">27.6%</div>
+<div class="card-label">🎯 Lead คุณภาพ</div>
+</div>
+<div class="summary-card facebook">
+<div class="card-number" id="overviewFacebook">558</div>
+<div class="card-label">Facebook</div>
+</div>
+<div class="summary-card tiktok">
+<div class="card-number" id="overviewTikTok">36</div>
+<div class="card-label">TikTok</div>
+</div>
+<div class="summary-card success">
+<div class="card-number" id="overviewSuccess">9</div>
+<div class="card-label">จองรถแล้ว</div>
+</div>
+</div>
+</div>
+<div class="overview-card">
+<h3>🎯 คุณภาพ Lead ตาม Platform</h3>
+<div style="padding: 20px;">
+<div class="quality-meter">
+<div class="quality-meter-label">
+<span>📘 Facebook <span id="fbPeriodText">(6 เดือน)</span></span>
+<span><strong class="trending-up" id="fbQualityPercent">27.8% ↗️</strong> (<span id="fbQualityRatio">155/558</span>)</span>
+</div>
+<div class="quality-meter-bar">
+<div class="quality-meter-fill facebook" id="fbQualityBar" style="width: 100%;"></div>
+</div>
+</div>
+<div class="quality-meter">
+<div class="quality-meter-label">
+<span>🎵 TikTok <span id="ttPeriodText">(3 เดือน)</span></span>
+<span><strong id="ttQualityPercent">25%</strong> (<span id="ttQualityRatio">9/36</span>)</span>
+</div>
+<div class="quality-meter-bar">
+<div class="quality-meter-fill tiktok" id="ttQualityBar" style="width: 60%;"></div>
+</div>
+</div>
+<div class="quality-meter">
+<div class="quality-meter-label">
+<span>📊 รวมทั้งหมด</span>
+<span><strong id="overallQualityPercent">27.6%</strong> (<span id="overallQualityRatio">164/594</span>)</span>
+</div>
+<div class="quality-meter-bar">
+<div class="quality-meter-fill overall" id="overallQualityBar" style="width: 98%;"></div>
+</div>
+</div>
+<p style="margin-top: 15px; font-size: 0.9rem; color: #6c757d; text-align: center;">
+                            📞 Lead คุณภาพ = ลูกค้าที่มีเบอร์ติดต่อได้<br>
+                            🚀 ระบบคำนวณอัตโนมัติจากข้อมูลจริง
+                        </p>
+</div>
+</div>
+<div class="overview-card">
+<h3>⚖️ เปรียบเทียบ Platform</h3>
+<div class="comparison-chart">
+<div class="comparison-bar">
+<div class="bar facebook" id="comparisonFbBar" style="height: 180px;">505</div>
+<div class="bar-label">Facebook</div>
+</div>
+<div class="comparison-bar">
+<div class="bar tiktok" id="comparisonTtBar" style="height: 20px;">24</div>
+<div class="bar-label">TikTok</div>
+</div>
+</div>
+<p id="comparisonText" style="text-align: center; color: #6c757d; font-size: 0.9rem;">
+                        Facebook มีลูกค้ามากกว่า TikTok ประมาณ 21 เท่า<br>
+                        และมี Lead คุณภาพสูงกว่าด้วย!
+                    </p>
+</div>
+<div class="overview-card">
+<h3>📅 การใช้งานตามช่วงเวลา</h3>
+<div style="padding: 20px;">
+<div style="margin-bottom: 15px; padding: 15px; background: #e3f2fd; border-radius: 8px; border-left: 4px solid #1877f2;">
+<strong>📘 Facebook Active</strong><br>
+<span id="fbDateRange" style="color: #6c757d;">ม.ค. - มิ.ย. 2568 (6 เดือน)</span><br>
+<span id="fbSummaryText" style="font-size: 0.9rem;">558 leads, 7 bookings (1.25%), 155 คุณภาพ (27.8%)</span><br>
+<span id="fbTrendText" style="font-size: 0.85rem; color: #27ae60;">📈 เทรนด์ดีขึ้น: 28.6% → 44.4%</span>
+</div>
+<div style="padding: 15px; background: #fce4ec; border-radius: 8px; border-left: 4px solid #ff0050;">
+<strong>🎵 TikTok Active</strong><br>
+<span id="ttDateRange" style="color: #6c757d;">เม.ย. - มิ.ย. 2568 (3 เดือน)</span><br>
+<span id="ttSummaryText" style="font-size: 0.9rem;">36 leads, 2 bookings (5.56%), 9 คุณภาพ (25%)</span><br>
+<span style="font-size: 0.85rem; color: #f39c12;">📊 อัตราแปลงสูง แต่ปริมาณน้อย</span>
+</div>
+</div>
+</div>
+<div class="overview-card">
+<h3>🏆 อัตราความสำเร็จ</h3>
+<div style="padding: 20px;">
+<div style="margin-bottom: 15px;">
+<div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+<span>การแปลง → จอง</span>
+<span></span>
+</div>
+<div style="margin-bottom: 10px;">
+<div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 3px;">
+<span>Facebook</span>
+<span><strong id="fbConversionRate">1.25%</strong></span>
+</div>
+<div style="background: #ecf0f1; height: 6px; border-radius: 3px; overflow: hidden;">
+<div id="fbConversionBar" style="background: rgb(24, 119, 242); height: 100%; border-radius: 3px; width: 22.482%;"></div>
+</div>
+</div>
+<div>
+<div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 3px;">
+<span>TikTok</span>
+<span><strong id="ttConversionRate">5.56%</strong></span>
+</div>
+<div style="background: #ecf0f1; height: 6px; border-radius: 3px; overflow: hidden;">
+<div id="ttConversionBar" style="background: rgb(255, 0, 80); height: 100%; border-radius: 3px; width: 100%;"></div>
+</div>
+</div>
+</div>
+<p style="font-size: 0.85rem; color: #6c757d; text-align: center;">
+                            🎯 TikTok: อัตราแปลงสูง แต่ปริมาณน้อย<br>
+                            📘 Facebook: ปริมาณสูง + Lead คุณภาพดีขึ้น = แนวโน้มดี
+                        </p>
+</div>
+</div>
+<div class="overview-card">
+<h3>📊 ข้อมูลสถิติเพิ่มเติม</h3>
+<div style="padding: 20px;">
+<div style="margin-bottom: 15px;">
+<div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+<span>📅 ช่วงข้อมูล:</span>
+<span><strong id="dateRangeDisplay">ม.ค. - มิ.ย. 2568</strong></span>
+</div>
+<div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+<span>📊 จำนวนเดือนที่มีข้อมูล:</span>
+<span><strong id="totalMonthsDisplay">6 เดือน</strong></span>
+</div>
+<div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+<span>📈 เฉลี่ยลูกค้าต่อเดือน:</span>
+<span><strong id="avgLeadsPerMonth">99 คน</strong></span>
+</div>
+<div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+<span>🎯 เฉลี่ย Lead คุณภาพต่อเดือน:</span>
+<span><strong id="avgQualityPerMonth">27 คน</strong></span>
+</div>
+<div style="display: flex; justify-content: space-between; padding: 8px 0;">
+<span>🚗 เฉลี่ยการจองต่อเดือน:</span>
+<span><strong id="avgBookingsPerMonth">1.5 คัน</strong></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Combined Chart -->
+<div class="charts-section">
+<div class="chart-container">
+<div class="chart-title">📈 ลูกค้ามุ่งหวังรายเดือน - เปรียบเทียบ Platform</div>
+<canvas id="combinedChart" style="box-sizing: border-box; display: block; height: 475px; width: 951px;" width="951" height="475"></canvas>
+</div>
+</div>
+</div><div class="tab-content" id="facebook" style="display: block;">
+<div class="platform-header facebook">
+<h2>📘 Facebook Marketing</h2>
+<p class="platform-period" id="fbHeaderPeriod">ช่วงเวลา: ม.ค. - มิ.ย. 2568 | ระยะเวลา: 6 เดือน</p>
+</div>
+<div class="summary-cards">
+<div class="summary-card facebook">
+<div class="card-number" id="fbTotalLeads">558</div>
+<div class="card-label">ลูกค้าทั้งหมด</div>
+</div>
+<div class="summary-card quality">
+<div class="card-number" id="fbQuality">27.8%</div>
+<div class="card-label">🎯 Lead คุณภาพ</div>
+</div>
+<div class="summary-card">
+<div class="card-number" id="fbQualityCount">155</div>
+<div class="card-label">มีเบอร์ติดต่อ</div>
+</div>
+<div class="summary-card">
+<div class="card-number" id="fbAvgMonth">93</div>
+<div class="card-label">เฉลี่ยต่อเดือน</div>
+</div>
+<div class="summary-card success">
+<div class="card-number" id="fbBookings">7</div>
+<div class="card-label">จองรถแล้ว</div>
+</div>
+<div class="summary-card">
+<div class="card-number" id="fbConversion">1.25%</div>
+<div class="card-label">อัตราความสำเร็จ</div>
+</div>
+</div>
+<!-- Facebook Booking Details -->
+<div class="charts-section">
+<div class="booking-details">
+<div class="booking-title">
+                        🎉 ลูกค้าที่จองรถผ่าน Facebook (<span id="fbBookingCount">7</span> คัน)
+                    </div>
+<div class="booking-list" id="fbBookingList">
+                    <div class="booking-item">
+                        <div class="booking-customer">Saku Wan</div>
+                        <div class="booking-details-text">
+                            🚗 รุ่นรถ: Yaris<br>
+                            📅 วันที่: 31/1/2568<br>
+                            👤 เซลล์: วรารัตน์
+                        </div>
+                    </div>
+                
+                    <div class="booking-item">
+                        <div class="booking-customer">มัง ช่างลุกมาน</div>
+                        <div class="booking-details-text">
+                            🚗 รุ่นรถ: Revo D<br>
+                            📅 วันที่: 10/2/2568<br>
+                            👤 เซลล์: มูฮำหมัด
+                        </div>
+                    </div>
+                
+                    <div class="booking-item">
+                        <div class="booking-customer">Wawee Sensana</div>
+                        <div class="booking-details-text">
+                            🚗 รุ่นรถ: Ativ<br>
+                            📅 วันที่: 26/2/2568<br>
+                            👤 เซลล์: อานิสา
+                        </div>
+                    </div>
+                
+                    <div class="booking-item">
+                        <div class="booking-customer">Saifu</div>
+                        <div class="booking-details-text">
+                            🚗 รุ่นรถ: Revo Z<br>
+                            📅 วันที่: 27/2/2568<br>
+                            👤 เซลล์: ชาริณีย์
+                        </div>
+                    </div>
+                
+                    <div class="booking-item">
+                        <div class="booking-customer">ลูกค้าเดือนเมษายน</div>
+                        <div class="booking-details-text">
+                            🚗 รุ่นรถ: (รอข้อมูล)<br>
+                            📅 วันที่: เมษายน 2568<br>
+                            👤 เซลล์: (รอข้อมูล)
+                        </div>
+                    </div>
+                
+                    <div class="booking-item">
+                        <div class="booking-customer">ลูกค้าเดือนพฤษภาคม</div>
+                        <div class="booking-details-text">
+                            🚗 รุ่นรถ: (รอข้อมูล)<br>
+                            📅 วันที่: พฤษภาคม 2568<br>
+                            👤 เซลล์: (รอข้อมูล)
+                        </div>
+                    </div>
+                </div>
+</div>
+<div class="chart-container">
+<div class="chart-title">📊 Facebook - ลูกค้า &amp; Lead คุณภาพรายเดือน</div>
+<canvas id="facebookChart"></canvas>
+</div>
+</div>
+<div class="monthly-details" id="fbMonthlyDetails">
+                    <div class="month-card">
+                        <div class="month-title">🗓️ มค. 2568</div>
+                        <div class="month-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">ลูกค้าใหม่:</span>
+                                <span class="stat-value">119</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">มีเบอร์ติดต่อ:</span>
+                                <span class="stat-value quality">34 (28.6%)</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">จองรถแล้ว:</span>
+                                <span class="stat-value highlight">1</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">% ความสำเร็จ:</span>
+                                <span class="stat-value">0.84%</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="month-card">
+                        <div class="month-title">🗓️ กพ. 2568</div>
+                        <div class="month-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">ลูกค้าใหม่:</span>
+                                <span class="stat-value">202</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">มีเบอร์ติดต่อ:</span>
+                                <span class="stat-value quality">35 (17.3%)</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">จองรถแล้ว:</span>
+                                <span class="stat-value highlight">3</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">% ความสำเร็จ:</span>
+                                <span class="stat-value">1.49%</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="month-card">
+                        <div class="month-title">🗓️ มีค. 2568</div>
+                        <div class="month-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">ลูกค้าใหม่:</span>
+                                <span class="stat-value">59</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">มีเบอร์ติดต่อ:</span>
+                                <span class="stat-value quality">20 (33.9%)</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">จองรถแล้ว:</span>
+                                <span class="stat-value ">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">% ความสำเร็จ:</span>
+                                <span class="stat-value">0.00%</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="month-card">
+                        <div class="month-title">🗓️ เมย. 2568</div>
+                        <div class="month-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">ลูกค้าใหม่:</span>
+                                <span class="stat-value">80</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">มีเบอร์ติดต่อ:</span>
+                                <span class="stat-value quality">32 (40%)</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">จองรถแล้ว:</span>
+                                <span class="stat-value highlight">1</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">% ความสำเร็จ:</span>
+                                <span class="stat-value">1.25%</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="month-card">
+                        <div class="month-title">🗓️ พค. 2568</div>
+                        <div class="month-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">ลูกค้าใหม่:</span>
+                                <span class="stat-value">47</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">มีเบอร์ติดต่อ:</span>
+                                <span class="stat-value quality">21 (44.7%)</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">จองรถแล้ว:</span>
+                                <span class="stat-value highlight">1</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">% ความสำเร็จ:</span>
+                                <span class="stat-value">2.13%</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="month-card">
+                        <div class="month-title">🗓️ มิย. 2568</div>
+                        <div class="month-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">ลูกค้าใหม่:</span>
+                                <span class="stat-value">51</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">มีเบอร์ติดต่อ:</span>
+                                <span class="stat-value quality">13 (25.5%)</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">จองรถแล้ว:</span>
+                                <span class="stat-value highlight">1</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">% ความสำเร็จ:</span>
+                                <span class="stat-value">1.96%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+</div><div class="tab-content" id="tiktok" style="display: block;">
+<div class="platform-header tiktok">
+<h2>🎵 TikTok Marketing</h2>
+<p class="platform-period" id="ttHeaderPeriod">ช่วงเวลา: เม.ย. - มิ.ย. 2568 | ระยะเวลา: 3 เดือน</p>
+</div>
+<div class="summary-cards">
+<div class="summary-card tiktok">
+<div class="card-number" id="ttTotalLeads">36</div>
+<div class="card-label">ลูกค้าทั้งหมด</div>
+</div>
+<div class="summary-card quality">
+<div class="card-number" id="ttQuality">25%</div>
+<div class="card-label">🎯 Lead คุณภาพ</div>
+</div>
+<div class="summary-card">
+<div class="card-number" id="ttQualityCount">9</div>
+<div class="card-label">มีเบอร์ติดต่อ</div>
+</div>
+<div class="summary-card">
+<div class="card-number" id="ttAvgMonth">12</div>
+<div class="card-label">เฉลี่ยต่อเดือน</div>
+</div>
+<div class="summary-card success">
+<div class="card-number" id="ttBookings">2</div>
+<div class="card-label">จองรถแล้ว</div>
+</div>
+<div class="summary-card">
+<div class="card-number" id="ttConversion">5.56%</div>
+<div class="card-label">อัตราความสำเร็จ</div>
+</div>
+</div>
+<!-- TikTok Booking Details -->
+<div class="charts-section">
+<div class="booking-details">
+<div class="booking-title">
+                        🎉 ลูกค้าที่จองรถผ่าน TikTok (<span id="ttBookingCount">2</span> คัน)
+                    </div>
+<div class="booking-list" id="ttBookingList">
+                    <div class="booking-item">
+                        <div class="booking-customer">Wai Suwaibah</div>
+                        <div class="booking-details-text">
+                            🚗 รุ่นรถ: Ativ<br>
+                            📅 วันที่: 4/5/2568<br>
+                            👤 เซลล์: อานิสา
+                        </div>
+                    </div>
+                
+                    <div class="booking-item">
+                        <div class="booking-customer">ASTON</div>
+                        <div class="booking-details-text">
+                            🚗 รุ่นรถ: Yaris cross<br>
+                            📅 วันที่: 13/5/2568<br>
+                            👤 เซลล์: วรารัตน์
+                        </div>
+                    </div>
+                </div>
+</div>
+<div class="chart-container">
+<div class="chart-title">📊 TikTok - ลูกค้า &amp; Lead คุณภาพรายเดือน</div>
+<canvas id="tiktokChart"></canvas>
+</div>
+</div>
+<div class="monthly-details" id="ttMonthlyDetails">
+                    <div class="month-card">
+                        <div class="month-title">🗓️ เมย. 2568</div>
+                        <div class="month-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">ลูกค้าใหม่:</span>
+                                <span class="stat-value">5</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">มีเบอร์ติดต่อ:</span>
+                                <span class="stat-value quality">0 (0%)</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">จองรถแล้ว:</span>
+                                <span class="stat-value ">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">% ความสำเร็จ:</span>
+                                <span class="stat-value">0.00%</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="month-card">
+                        <div class="month-title">🗓️ พค. 2568</div>
+                        <div class="month-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">ลูกค้าใหม่:</span>
+                                <span class="stat-value">19</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">มีเบอร์ติดต่อ:</span>
+                                <span class="stat-value quality">4 (21.1%)</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">จองรถแล้ว:</span>
+                                <span class="stat-value highlight">2</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">% ความสำเร็จ:</span>
+                                <span class="stat-value">10.53%</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="month-card">
+                        <div class="month-title">🗓️ มิย. 2568</div>
+                        <div class="month-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">ลูกค้าใหม่:</span>
+                                <span class="stat-value">12</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">มีเบอร์ติดต่อ:</span>
+                                <span class="stat-value quality">5 (41.7%)</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">จองรถแล้ว:</span>
+                                <span class="stat-value ">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">% ความสำเร็จ:</span>
+                                <span class="stat-value">0.00%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+</div><div class="footer">
+<p>📅 รายงานจัดทำ: มิถุนายน 2568 | 📍 โตโยต้าพิธานปัตตานี | 📞 Lead คุณภาพ = ลูกค้าที่มีเบอร์ติดต่อได้</p>
+<p style="margin-top: 5px; opacity: 0.8; font-size: 0.8rem;">
+                🖨️ พิมพ์เมื่อ: <span id="printDateTime">-</span> | 
+                💾 ข้อมูลอัพเดทล่าสุด: <span id="lastUpdatedFooter">มิถุนายน 2568</span> |
+                🔧 รองรับข้อมูล 12 เดือน + อัพโหลด Excel (อัตโนมัติ)
+            </p>
+</div></main></div></div></div>
+<header class="top-navbar"><div class="action-buttons-bar" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"><div class="upload-container">
+
+<div class="upload-input" id="uploadArea" onclick="document.getElementById('fileInput').click();">
+                    📁 คลิกเพื่ออัพโหลดไฟล์ Excel ใหม่<br>
+                    <small style="opacity: 0.7;">รองรับ: .xlsx, .xls | ต้องมี Sheet ชื่อ "facebook" หรือ "tiktok"</small>
+                </div>
+<button class="upload-btn" id="uploadBtn" onclick="processFile()" disabled="">🔄 ประมวลผลข้อมูล</button>
+<button class="upload-btn" onclick="restoreOriginalData()" style="background: linear-gradient(135deg, #6c757d 0%, #495057 100%);">
+                    ↩️ เรียกคืนข้อมูลเดิม
+                </button>
+<div class="last-updated" id="lastUpdated">📅 อัพเดทล่าสุด: 12/7/2568 15:51:46</div>
+</div><div class="share-section">
+<div class="share-info">
+                🌐 แชร์แดชบอร์ดแบบอ่านอย่างเดียว | 📊 ข้อมูลอัพเดทล่าสุด | 🔒 ปลอดภัย
+            </div>
+</div><div class="share-options">
+</div><div class="print-section">
+</div><div class="print-options">
+</div><button class="print-btn" onclick="saveToPDF()">
+            💾 บันทึกเป็น PDF
+        </button><div class="print-group-in-header"></div><div class="print-section">
+<div class="print-info">
+                📄 ขนาด A4 | 💡 PDF หรือพิมพ์ได้ | ⌨️ Ctrl+P = พิมพ์ทั้งหมด | 📊 รองรับ 12 เดือน | 📂 อัพโหลด Excel ได้
+            </div>
+</div><div class="print-options">
+</div><button class="print-btn" onclick="showPrintHelp()" style="background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);">
+                    ❓ วิธีใช้
+                </button></div></header>
+
+
+
+
+
+
+
+<div id="export-section" style="text-align: center; padding: 30px;">
+<button id="export-button" onclick="exportCleanDashboard()" style="padding: 12px 24px; background-color: #1b5e20; color: white; font-weight: bold; font-size: 16px; border: none; border-radius: 6px; cursor: pointer;">
+    📤 บันทึกเวอร์ชันสำหรับแชร์
+  </button>
+</div>
+
+
+
+
+<div style="text-align:center; margin-top: 10px;">
+<button onclick="setGitHubToken()" style="padding: 8px 16px; background-color: #777; color: white; border: none; border-radius: 5px; cursor: pointer;">
+    🔑 ตั้งค่า GitHub Token
+  </button>
+</div>
+
+
+
+
+</body></html>
