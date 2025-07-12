@@ -1224,8 +1224,9 @@
 </style>
 </head>
 <body>
-<div id="export-section" style="text-align: right; padding: 10px;">
-<button onclick="exportCleanDashboard()" style="padding: 10px 18px; background-color: #0a7e07; color: white; font-weight: bold; font-size: 15px; border: none; border-radius: 6px; cursor: pointer;">
+
+<div id="export-section" style="text-align: right; padding: 12px; background-color: #e3f5e0;">
+<button id="export-button" onclick="exportCleanDashboard()" style="padding: 10px 20px; background-color: #1b5e20; color: white; font-weight: bold; font-size: 15px; border: none; border-radius: 6px; cursor: pointer;">
     📤 บันทึกเวอร์ชันสำหรับแชร์
   </button>
 </div>
@@ -1235,7 +1236,7 @@
 <input accept=".xlsx,.xls,.csv" id="excelFile" type="file"/>
 <p style="margin-top: 10px; font-size: 0.9em;">รองรับ .xlsx, .xls, .csv</p>
 </div>
-<div id="dashboard-panel"><div class="container"><main class="dashboard-container"><div class="header">
+<div id="dashboard-panel" style="margin-top: 40px;"><div class="container"><main class="dashboard-container"><div class="header">
 <h1>🚗 รายงานการติดตามลูกค้ามุ่งหวัง</h1>
 <p>การตลาดดิจิตอล Facebook &amp; TikTok | โตโยต้าพิธานปัตตานี | ปี 2568</p>
 </div><div class="loading" id="loading">
@@ -1543,29 +1544,19 @@
                 🌐 แชร์แดชบอร์ดแบบอ่านอย่างเดียว | 📊 ข้อมูลอัพเดทล่าสุด | 🔒 ปลอดภัย
             </div>
 </div><div class="share-options">
-<button class="share-btn" onclick="copyCurrentLink()" style="background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);">
-                    📋 คัดลอกลิงก์ปัจจุบัน
-                </button>
-</div><button class="share-btn" onclick="generateShareLink()">
-                    🔗 สร้างลิงก์แชร์แดชบอร์ด
-                </button><div class="print-section">
+
+</div><div class="print-section">
 </div><div class="print-options">
 </div><button class="print-btn" onclick="saveToPDF()">
             💾 บันทึกเป็น PDF
         </button><div class="print-group-in-header"></div><button class="print-btn" onclick="printReport('all')">
                     🖨️ พิมพ์รายงานทั้งหมด
-                </button><button class="print-btn" onclick="printReport('overview')">
-                    📊 พิมพ์ภาพรวม
                 </button><div class="print-section">
 <div class="print-info">
                 📄 ขนาด A4 | 💡 PDF หรือพิมพ์ได้ | ⌨️ Ctrl+P = พิมพ์ทั้งหมด | 📊 รองรับ 12 เดือน | 📂 อัพโหลด Excel ได้
             </div>
 </div><div class="print-options">
-</div><button class="print-btn" onclick="printReport('facebook')">
-                    📘 พิมพ์ Facebook
-                </button><button class="print-btn" onclick="printReport('tiktok')">
-                    🎵 พิมพ์ TikTok
-                </button><button class="print-btn" onclick="showPrintHelp()" style="background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);">
+</div><button class="print-btn" onclick="showPrintHelp()" style="background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);">
                     ❓ วิธีใช้
                 </button></div></header>
 <script>
@@ -3091,18 +3082,67 @@ document.getElementById('excelFile')?.addEventListener('change', function(e) {
   reader.readAsBinaryString(file);
 });
 </script>
+<script>
+function exportCleanDashboard() {
+    const clone = document.documentElement.cloneNode(true);
+    const removeList = [
+        '#uploader-panel', '#upload-section', 'input[type=file]',
+        '#export-section', '#download-section', 'script', 'button'
+    ];
+    removeList.forEach(selector => {
+        clone.querySelectorAll(selector).forEach(el => el.remove());
+    });
+    const blob = new Blob(['<!DOCTYPE html>' + clone.outerHTML], {type: 'text/html'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'dashboard_view.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+</script>
+<script>
+function exportCleanDashboard() {
+    const clone = document.documentElement.cloneNode(true);
+    const removeList = [
+        '#uploader-panel', '#upload-section', 'input[type=file]',
+        '#download-section', 'script', '#export-button',
+        'button[onclick*="print"]'
+    ];
+    removeList.forEach(selector => {
+        clone.querySelectorAll(selector).forEach(el => el.remove());
+    });
+    const blob = new Blob(['<!DOCTYPE html>' + clone.outerHTML], {type: 'text/html'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'dashboard_view.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+</script>
+
+<div id="export-section" style="text-align: center; padding: 30px;">
+<button id="export-button" onclick="exportCleanDashboard()" style="padding: 12px 24px; background-color: #1b5e20; color: white; font-weight: bold; font-size: 16px; border: none; border-radius: 6px; cursor: pointer;">
+    📤 บันทึกเวอร์ชันสำหรับแชร์
+  </button>
+</div>
 
 <script>
 function exportCleanDashboard() {
     const clone = document.documentElement.cloneNode(true);
     const removeList = [
         '#uploader-panel', '#upload-section', 'input[type=file]',
-        'button', '#export-section', 'script', '#download-section'
+        '#download-section', 'script', '#export-button', '#export-section',
+        'button[onclick*="print"]'
     ];
     removeList.forEach(selector => {
         clone.querySelectorAll(selector).forEach(el => el.remove());
     });
-
     const blob = new Blob(['<!DOCTYPE html>' + clone.outerHTML], {type: 'text/html'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
