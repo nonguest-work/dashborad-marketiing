@@ -1069,99 +1069,184 @@
         zoom: 0.9;
     }
 }
-</style></head>
-<body>
-<div class="container">
-<!-- Header -->
-<div class="header">
+</style>
+<style>
+.top-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    background: #fff;
+    z-index: 1000;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.dashboard-container {
+    margin-top: 140px;
+    padding: 20px;
+}
+@media print {
+    .top-navbar {
+        display: none !important;
+    }
+    .dashboard-container {
+        margin-top: 0 !important;
+    }
+}
+</style>
+<style>
+@media print {
+    .nav-tabs, .tab-pane {
+        display: block !important;
+    }
+    .tab-content .tab-pane {
+        display: block !important;
+        page-break-before: always;
+    }
+    .tab-pane + .tab-pane {
+        page-break-before: always;
+    }
+    .no-print {
+        display: none !important;
+    }
+    .print-btn {
+        display: none !important;
+    }
+    .container {
+        width: 794px !important;
+        margin: 0 auto;
+    }
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+}
+</style><style>
+@media print {
+    .tab-content .tab-pane * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        color: #000 !important;
+        background: transparent !important;
+        opacity: 1 !important;
+        filter: none !important;
+    }
+    canvas {
+        image-rendering: pixelated !important;
+        opacity: 1 !important;
+    }
+}
+</style>
+<style>
+.action-buttons-bar button {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.action-buttons-bar button:hover {
+    background-color: #e0e0e0;
+}
+@media print {
+    .action-buttons-bar {
+        display: none !important;
+    }
+}
+</style>
+<style>
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    .tab-pane {
+        display: block !important;
+        page-break-before: always;
+    }
+    .tab-pane:first-child {
+        page-break-before: auto;
+    }
+    body, #dashboard-panel {
+        width: 794px;
+        margin: 0 auto;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+}
+</style>
+<style>
+#main-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+#uploader-panel {
+  margin-bottom: 20px;
+}
+.container, #dashboard-panel {
+  width: 100% !important;
+}
+@media print {
+  body, #dashboard-panel {
+    width: 794px !important;
+    margin: 0 auto !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+}
+</style>
+<style>
+@media print {
+  .tab-pane {
+    display: block !important;
+    opacity: 1 !important;
+    transform: none !important;
+    page-break-before: always;
+  }
+  .tab-pane:first-child {
+    page-break-before: auto;
+  }
+  .no-print {
+    display: none !important;
+  }
+  body, #dashboard-panel {
+    width: 794px !important;
+    margin: 0 auto !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+}
+</style>
+</head>
+<body><div id="main-wrapper" style="max-width: 1000px; margin: 0 auto;">
+<div class="no-print" id="uploader-panel" style="margin-bottom: 20px; text-align: center;">
+<h3>📂 อัปโหลดไฟล์ Excel เพื่อคำนวณข้อมูล 12 เดือน</h3>
+<input accept=".xlsx,.xls,.csv" id="excelFile" type="file"/>
+<p style="margin-top: 10px; font-size: 0.9em;">รองรับ .xlsx, .xls, .csv</p>
+</div>
+<div id="dashboard-panel"><div class="container"><main class="dashboard-container"><div class="header">
 <h1>🚗 รายงานการติดตามลูกค้ามุ่งหวัง</h1>
 <p>การตลาดดิจิตอล Facebook &amp; TikTok | โตโยต้าพิธานปัตตานี | ปี 2568</p>
-</div>
-<!-- Upload Section -->
-<div class="upload-section">
-<div class="upload-container">
-<input accept=".xlsx,.xls" class="upload-input" id="fileInput" style="display: none;" type="file"/>
-<div class="upload-input" id="uploadArea" onclick="document.getElementById('fileInput').click();">
-                    📁 คลิกเพื่ออัพโหลดไฟล์ Excel ใหม่<br/>
-<small style="opacity: 0.7;">รองรับ: .xlsx, .xls | ต้องมี Sheet ชื่อ "facebook" หรือ "tiktok"</small>
-</div>
-<button class="upload-btn" disabled="" id="uploadBtn" onclick="processFile()">
-                    🔄 ประมวลผลข้อมูล
-                </button>
-<button class="upload-btn" onclick="restoreOriginalData()" style="background: linear-gradient(135deg, #6c757d 0%, #495057 100%);">
-                    ↩️ เรียกคืนข้อมูลเดิม
-                </button>
-<div class="last-updated" id="lastUpdated">
-                    📅 อัพเดทล่าสุด: มิถุนายน 2568
-                </div>
-</div>
-</div>
-<!-- Loading -->
-<div class="loading" id="loading">
+</div><div class="loading" id="loading">
 <div class="spinner"></div>
 <p id="loadingText">กำลังประมวลผลข้อมูล...</p>
-</div>
-<!-- Share Section -->
-<div class="share-section">
-<div class="share-options">
-<button class="share-btn" onclick="generateShareLink()">
-                    🔗 สร้างลิงก์แชร์แดชบอร์ด
-                </button>
-<button class="share-btn" onclick="copyCurrentLink()" style="background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);">
-                    📋 คัดลอกลิงก์ปัจจุบัน
-                </button>
-</div>
-<div class="share-info">
-                🌐 แชร์แดชบอร์ดแบบอ่านอย่างเดียว | 📊 ข้อมูลอัพเดทล่าสุด | 🔒 ปลอดภัย
-            </div>
-</div>
-<div class="print-section">
-<div class="print-options">
-<button class="print-btn" onclick="saveToPDF()">
-            💾 บันทึกเป็น PDF
-        </button>
-</div>
-</div>
-
-<div class="data-period-info">
+</div><div class="data-period-info">
 <strong>📊 ช่วงข้อมูลปัจจุบัน:</strong>
 <span id="dataPeriodDisplay">มกราคม - มิถุนายน 2568 (6 เดือน)</span> | 
             <strong>📈 ระบบรองรับ:</strong> ข้อมูลทั้ง 12 เดือน (อัตโนมัติ) | 
             <strong>📂 รองรับ:</strong> อัพโหลด Excel อัตโนมัติ
-        </div>
-<!-- Print Section -->
-<div class="print-section">
-<div class="print-options">
-<button class="print-btn" onclick="printReport('all')">
-                    🖨️ พิมพ์รายงานทั้งหมด
-                </button>
-<button class="print-btn" onclick="printReport('overview')">
-                    📊 พิมพ์ภาพรวม
-                </button>
-<button class="print-btn" onclick="printReport('facebook')">
-                    📘 พิมพ์ Facebook
-                </button>
-<button class="print-btn" onclick="printReport('tiktok')">
-                    🎵 พิมพ์ TikTok
-                </button>
-<button class="print-btn" onclick="showPrintHelp()" style="background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);">
-                    ❓ วิธีใช้
-                </button>
-</div>
-<div class="print-info">
-                📄 ขนาด A4 | 💡 PDF หรือพิมพ์ได้ | ⌨️ Ctrl+P = พิมพ์ทั้งหมด | 📊 รองรับ 12 เดือน | 📂 อัพโหลด Excel ได้
-            </div>
-</div>
-<!-- Tabs -->
-<div class="tabs-container">
+        </div><div class="tabs-container">
 <div class="tabs">
 <button class="tab active" onclick="showTab('overview')">📊 ภาพรวม</button>
 <button class="tab facebook" onclick="showTab('facebook')">📘 Facebook</button>
 <button class="tab tiktok" onclick="showTab('tiktok')">🎵 TikTok</button>
 </div>
-</div>
-<!-- Overview Tab -->
-<div class="tab-content active" id="overview">
+</div><div class="tab-content active" id="overview" style="display: block;">
 <div class="overview-grid">
 <div class="overview-card">
 <h3>📈 สรุปผลรวม <span id="overviewMonthCount">(6 เดือน)</span></h3>
@@ -1326,9 +1411,7 @@
 <canvas id="combinedChart"></canvas>
 </div>
 </div>
-</div>
-<!-- Facebook Tab -->
-<div class="tab-content" id="facebook">
+</div><div class="tab-content" id="facebook" style="display: block;">
 <div class="platform-header facebook">
 <h2>📘 Facebook Marketing</h2>
 <p class="platform-period" id="fbHeaderPeriod">ช่วงเวลา: มกราคม - มิถุนายน 2568 | ระยะเวลา: 6 เดือน</p>
@@ -1377,9 +1460,7 @@
 <div class="monthly-details" id="fbMonthlyDetails">
 <!-- จะถูกสร้างโดย JavaScript -->
 </div>
-</div>
-<!-- TikTok Tab -->
-<div class="tab-content" id="tiktok">
+</div><div class="tab-content" id="tiktok" style="display: block;">
 <div class="platform-header tiktok">
 <h2>🎵 TikTok Marketing</h2>
 <p class="platform-period" id="ttHeaderPeriod">ช่วงเวลา: เมษายน - มิถุนายน 2568 | ระยะเวลา: 3 เดือน</p>
@@ -1428,17 +1509,59 @@
 <div class="monthly-details" id="ttMonthlyDetails">
 <!-- จะถูกสร้างโดย JavaScript -->
 </div>
-</div>
-<!-- Footer -->
-<div class="footer">
+</div><div class="footer">
 <p>📅 รายงานจัดทำ: มิถุนายน 2568 | 📍 โตโยต้าพิธานปัตตานี | 📞 Lead คุณภาพ = ลูกค้าที่มีเบอร์ติดต่อได้</p>
 <p style="margin-top: 5px; opacity: 0.8; font-size: 0.8rem;">
                 🖨️ พิมพ์เมื่อ: <span id="printDateTime">-</span> | 
                 💾 ข้อมูลอัพเดทล่าสุด: <span id="lastUpdatedFooter">มิถุนายน 2568</span> |
                 🔧 รองรับข้อมูล 12 เดือน + อัพโหลด Excel (อัตโนมัติ)
             </p>
+</div></main></div></div></div>
+<header class="top-navbar"><div class="action-buttons-bar" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"><div class="upload-container">
+<input accept=".xlsx,.xls" class="upload-input" id="fileInput" style="display: none;" type="file"/>
+<div class="upload-input" id="uploadArea" onclick="document.getElementById('fileInput').click();">
+                    📁 คลิกเพื่ออัพโหลดไฟล์ Excel ใหม่<br/>
+<small style="opacity: 0.7;">รองรับ: .xlsx, .xls | ต้องมี Sheet ชื่อ "facebook" หรือ "tiktok"</small>
 </div>
-</div>
+<button class="upload-btn" disabled="" id="uploadBtn" onclick="processFile()">
+                    🔄 ประมวลผลข้อมูล
+                </button>
+<button class="upload-btn" onclick="restoreOriginalData()" style="background: linear-gradient(135deg, #6c757d 0%, #495057 100%);">
+                    ↩️ เรียกคืนข้อมูลเดิม
+                </button>
+<div class="last-updated" id="lastUpdated">
+                    📅 อัพเดทล่าสุด: มิถุนายน 2568
+                </div>
+</div><div class="share-section">
+<div class="share-info">
+                🌐 แชร์แดชบอร์ดแบบอ่านอย่างเดียว | 📊 ข้อมูลอัพเดทล่าสุด | 🔒 ปลอดภัย
+            </div>
+</div><div class="share-options">
+<button class="share-btn" onclick="copyCurrentLink()" style="background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);">
+                    📋 คัดลอกลิงก์ปัจจุบัน
+                </button>
+</div><button class="share-btn" onclick="generateShareLink()">
+                    🔗 สร้างลิงก์แชร์แดชบอร์ด
+                </button><div class="print-section">
+</div><div class="print-options">
+</div><button class="print-btn" onclick="saveToPDF()">
+            💾 บันทึกเป็น PDF
+        </button><div class="print-group-in-header"></div><button class="print-btn" onclick="printReport('all')">
+                    🖨️ พิมพ์รายงานทั้งหมด
+                </button><button class="print-btn" onclick="printReport('overview')">
+                    📊 พิมพ์ภาพรวม
+                </button><div class="print-section">
+<div class="print-info">
+                📄 ขนาด A4 | 💡 PDF หรือพิมพ์ได้ | ⌨️ Ctrl+P = พิมพ์ทั้งหมด | 📊 รองรับ 12 เดือน | 📂 อัพโหลด Excel ได้
+            </div>
+</div><div class="print-options">
+</div><button class="print-btn" onclick="printReport('facebook')">
+                    📘 พิมพ์ Facebook
+                </button><button class="print-btn" onclick="printReport('tiktok')">
+                    🎵 พิมพ์ TikTok
+                </button><button class="print-btn" onclick="showPrintHelp()" style="background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);">
+                    ❓ วิธีใช้
+                </button></div></header>
 <script>
         let combinedChart, facebookChart, tiktokChart;
 
@@ -2940,6 +3063,28 @@ async function saveToPDF() {
     }
     pdf.save('dashboard-toyota-report.pdf');
 }
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+document.getElementById('excelFile')?.addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    const data = evt.target.result;
+    const workbook = XLSX.read(data, { type: 'binary' });
+    let firstSheet = workbook.SheetNames[0];
+    let jsonData = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet], { header: 1 });
+
+    // For demo: show first 12 rows in alert
+    let preview = jsonData.slice(0, 13).map(row => row.join(" | ")).join("\n");
+    alert("แสดงข้อมูล 12 เดือนแรกจากไฟล์:\n\n" + preview);
+
+    // TODO: Replace alert with rendering into dashboard dynamically
+  };
+  reader.readAsBinaryString(file);
+});
 </script>
 </body>
 </html>
