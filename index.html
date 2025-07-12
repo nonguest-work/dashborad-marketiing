@@ -3163,6 +3163,14 @@ const GITHUB_USERNAME = "nonguest-work";
 const REPO_NAME = "dashborad-marketiing";
 const TARGET_FOLDER = "view";
 
+function setGithubToken() {
+  const token = prompt("กรุณาวาง GitHub Token ของคุณ:");
+  if (token) {
+    localStorage.setItem("GITHUB_TOKEN", token);
+    alert("บันทึก GitHub Token เรียบร้อยแล้ว");
+  }
+}
+
 async function uploadHTMLToGitHub(filename, htmlContent) {
   const GITHUB_TOKEN = localStorage.getItem("GITHUB_TOKEN");
   if (!GITHUB_TOKEN) {
@@ -3208,6 +3216,21 @@ async function uploadHTMLToGitHub(filename, htmlContent) {
     return `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/${result.content.path}`;
   } else {
     throw new Error(result.message || "อัปโหลดไม่สำเร็จ");
+  }
+}
+
+async function shareDashboard() {
+  const dashboardHTML = document.documentElement.outerHTML;
+  const filename = "dashboard_" + new Date().toISOString().split("T")[0] + ".html";
+  try {
+    const url = await uploadHTMLToGitHub(filename, dashboardHTML);
+    alert("สร้างลิงก์สำเร็จ:\n" + url);
+    const linkDisplay = document.getElementById("link-result");
+    if (linkDisplay) {
+      linkDisplay.innerHTML = '<a href="' + url + '" target="_blank">' + url + '</a>';
+    }
+  } catch (err) {
+    alert("เกิดข้อผิดพลาด: " + err.message);
   }
 }
 </script>
