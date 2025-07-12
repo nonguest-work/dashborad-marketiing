@@ -1229,6 +1229,12 @@
 <input accept=".xlsx,.xls,.csv" id="excelFile" type="file"/>
 <p style="margin-top: 10px; font-size: 0.9em;">รองรับ .xlsx, .xls, .csv</p>
 </div>
+
+<div id="share-section" style="text-align: right; margin-bottom: 20px;">
+<button onclick="copyShareLink()" style="padding: 6px 12px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;">
+    🔗 แชร์ลิงก์แดชบอร์ด
+  </button>
+</div>
 <div id="dashboard-panel"><div class="container"><main class="dashboard-container"><div class="header">
 <h1>🚗 รายงานการติดตามลูกค้ามุ่งหวัง</h1>
 <p>การตลาดดิจิตอล Facebook &amp; TikTok | โตโยต้าพิธานปัตตานี | ปี 2568</p>
@@ -3064,7 +3070,6 @@ async function saveToPDF() {
     pdf.save('dashboard-toyota-report.pdf');
 }
 </script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 document.getElementById('excelFile')?.addEventListener('change', function(e) {
@@ -3085,6 +3090,17 @@ document.getElementById('excelFile')?.addEventListener('change', function(e) {
   };
   reader.readAsBinaryString(file);
 });
+</script>
+
+<script>
+function copyShareLink() {
+  const link = window.location.href;
+  navigator.clipboard.writeText(link).then(function() {
+    alert("📋 ลิงก์แดชบอร์ดถูกคัดลอกแล้ว:\n" + link);
+  }, function(err) {
+    alert("เกิดข้อผิดพลาดในการคัดลอกลิงก์");
+  });
+}
 </script>
 </body>
 </html>
