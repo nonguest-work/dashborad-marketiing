@@ -1223,17 +1223,17 @@
 }
 </style>
 </head>
-<body><div id="main-wrapper" style="max-width: 1000px; margin: 0 auto;">
+<body>
+<div id="export-section" style="text-align: right; padding: 10px;">
+<button onclick="exportCleanDashboard()" style="padding: 10px 18px; background-color: #0a7e07; color: white; font-weight: bold; font-size: 15px; border: none; border-radius: 6px; cursor: pointer;">
+    📤 บันทึกเวอร์ชันสำหรับแชร์
+  </button>
+</div>
+<div id="main-wrapper" style="max-width: 1000px; margin: 0 auto;">
 <div class="no-print" id="uploader-panel" style="margin-bottom: 20px; text-align: center;">
 <h3>📂 อัปโหลดไฟล์ Excel เพื่อคำนวณข้อมูล 12 เดือน</h3>
 <input accept=".xlsx,.xls,.csv" id="excelFile" type="file"/>
 <p style="margin-top: 10px; font-size: 0.9em;">รองรับ .xlsx, .xls, .csv</p>
-</div>
-
-<div id="share-section" style="text-align: right; margin-bottom: 20px;">
-<button onclick="copyShareLink()" style="padding: 6px 12px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;">
-    🔗 แชร์ลิงก์แดชบอร์ด
-  </button>
 </div>
 <div id="dashboard-panel"><div class="container"><main class="dashboard-container"><div class="header">
 <h1>🚗 รายงานการติดตามลูกค้ามุ่งหวัง</h1>
@@ -3093,13 +3093,25 @@ document.getElementById('excelFile')?.addEventListener('change', function(e) {
 </script>
 
 <script>
-function copyShareLink() {
-  const link = window.location.href;
-  navigator.clipboard.writeText(link).then(function() {
-    alert("📋 ลิงก์แดชบอร์ดถูกคัดลอกแล้ว:\n" + link);
-  }, function(err) {
-    alert("เกิดข้อผิดพลาดในการคัดลอกลิงก์");
-  });
+function exportCleanDashboard() {
+    const clone = document.documentElement.cloneNode(true);
+    const removeList = [
+        '#uploader-panel', '#upload-section', 'input[type=file]',
+        'button', '#export-section', 'script', '#download-section'
+    ];
+    removeList.forEach(selector => {
+        clone.querySelectorAll(selector).forEach(el => el.remove());
+    });
+
+    const blob = new Blob(['<!DOCTYPE html>' + clone.outerHTML], {type: 'text/html'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'dashboard_view.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
 }
 </script>
 </body>
