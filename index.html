@@ -1224,12 +1224,6 @@
 </style>
 </head>
 <body>
-
-<div id="export-section" style="text-align: right; padding: 12px; background-color: #e3f5e0;">
-<button id="export-button" onclick="exportCleanDashboard()" style="padding: 10px 20px; background-color: #1b5e20; color: white; font-weight: bold; font-size: 15px; border: none; border-radius: 6px; cursor: pointer;">
-    📤 บันทึกเวอร์ชันสำหรับแชร์
-  </button>
-</div>
 <div id="main-wrapper" style="max-width: 1000px; margin: 0 auto;">
 <div class="no-print" id="uploader-panel" style="margin-bottom: 20px; text-align: center;">
 <h3>📂 อัปโหลดไฟล์ Excel เพื่อคำนวณข้อมูล 12 เดือน</h3>
@@ -1544,7 +1538,6 @@
                 🌐 แชร์แดชบอร์ดแบบอ่านอย่างเดียว | 📊 ข้อมูลอัพเดทล่าสุด | 🔒 ปลอดภัย
             </div>
 </div><div class="share-options">
-
 </div><div class="print-section">
 </div><div class="print-options">
 </div><button class="print-btn" onclick="saveToPDF()">
@@ -3125,13 +3118,11 @@ function exportCleanDashboard() {
     URL.revokeObjectURL(url);
 }
 </script>
-
 <div id="export-section" style="text-align: center; padding: 30px;">
 <button id="export-button" onclick="exportCleanDashboard()" style="padding: 12px 24px; background-color: #1b5e20; color: white; font-weight: bold; font-size: 16px; border: none; border-radius: 6px; cursor: pointer;">
     📤 บันทึกเวอร์ชันสำหรับแชร์
   </button>
 </div>
-
 <script>
 function exportCleanDashboard() {
     const clone = document.documentElement.cloneNode(true);
@@ -3152,6 +3143,88 @@ function exportCleanDashboard() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+}
+</script>
+<div id="share-section" style="text-align: center; padding: 30px;">
+<button id="share-button" onclick="generateAndUploadDashboard()" style="padding: 12px 24px; background-color: #1565c0; color: white; font-weight: bold; font-size: 16px; border: none; border-radius: 6px; cursor: pointer;">
+    📤 สร้างลิงก์แดชบอร์ด (สำหรับแชร์)
+  </button>
+<div id="share-result" style="margin-top: 20px; font-size: 15px; color: #333;"></div>
+</div>
+
+
+<div style="text-align:center; margin-top: 10px;">
+<button onclick="setGitHubToken()" style="padding: 8px 16px; background-color: #777; color: white; border: none; border-radius: 5px; cursor: pointer;">
+    🔑 ตั้งค่า GitHub Token
+  </button>
+</div>
+
+<script>
+const GITHUB_USERNAME = "nonguest-work";
+const REPO_NAME = "dashborad-marketiing";
+const TARGET_FOLDER = "view";
+
+async function uploadHTMLToGitHub(filename, htmlContent) {
+  const GITHUB_TOKEN = localStorage.getItem("GITHUB_TOKEN");
+  if (!GITHUB_TOKEN) {
+    alert("ยังไม่มี GitHub Token ใน LocalStorage\nกรุณาใส่ token ก่อนใช้งาน");
+    return;
+  }
+
+  const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${TARGET_FOLDER}/${filename}`;
+  const base64Content = btoa(unescape(encodeURIComponent(htmlContent)));
+
+  const response = await fetch(apiUrl, {
+    method: "PUT",
+    headers: {
+      Authorization: `token ${GITHUB_TOKEN}`,
+      Accept: "application/vnd.github.v3+json",
+    },
+    body: JSON.stringify({
+      message: `Add ${filename}`,
+      content: base64Content,
+    }),
+  });
+
+  const result = await response.json();
+  if (result.content && result.content.path) {
+    return `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/${result.content.path}`;
+  } else {
+    throw new Error(result.message || "อัปโหลดไม่สำเร็จ");
+  }
+}
+
+function generateAndUploadDashboard() {
+  const resultBox = document.getElementById("share-result");
+  resultBox.innerText = "⏳ กำลังประมวลผลแดชบอร์ด...";
+
+  const clone = document.documentElement.cloneNode(true);
+  const removeList = [
+    '#uploader-panel', '#upload-section', 'input[type=file]',
+    '#download-section', 'script', '#share-button', '#share-section',
+    'button[onclick*="print"]'
+  ];
+  removeList.forEach(selector => {
+    clone.querySelectorAll(selector).forEach(el => el.remove());
+  });
+
+  const html = '<!DOCTYPE html>' + clone.outerHTML;
+  const filename = "dashboard_" + new Date().toISOString().split("T")[0] + ".html";
+
+  uploadHTMLToGitHub(filename, html).then(link => {
+    resultBox.innerHTML = `<b>✅ ลิงก์แดชบอร์ด:</b> <a href="${link}" target="_blank">${link}</a>`;
+  }).catch(err => {
+    resultBox.innerHTML = `<span style="color: red;">❌ ${err.message}</span>`;
+  });
+}
+
+// ตัวเลือกใส่ GITHUB_TOKEN
+function setGitHubToken() {
+  const token = prompt("กรุณาใส่ GitHub Token:");
+  if (token) {
+    localStorage.setItem("GITHUB_TOKEN", token);
+    alert("✅ บันทึก Token เรียบร้อย");
+  }
 }
 </script>
 </body>
