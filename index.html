@@ -1222,29 +1222,56 @@
   }
 }
 </style>
-
-<style>
-  #top-bar, .top-menu, .menu-container, .upload-zone, .main-header, .header-menu, .menu-bar {
-    display: none !important;
-  }
-</style>
 </head>
 <body>
 
-<div style="padding: 1em; background: #f7f7f7; border-bottom: 1px solid #ddd;">
+<!-- GitHub Token Toolbar -->
+<div id="token-toolbar" style="padding: 1rem; background: #f7f7f7; border-bottom: 1px solid #ddd;">
   <label for="tokenInput"><strong>GitHub Token:</strong></label>
   <input id="tokenInput" type="password" placeholder="ใส่ GitHub Token ที่นี่" style="width: 300px;" />
   <button onclick="setGitHubToken()">💾 บันทึก Token</button>
+  <button onclick="shareDashboard()">🔗 สร้างลิงก์แดชบอร์ด</button>
 </div>
-
 <script>
 function setGitHubToken() {
   const token = document.getElementById("tokenInput").value.trim();
   if (token) {
     localStorage.setItem("github_token", token);
-    alert("บันทึก Token แล้วในเครื่องนี้เรียบร้อยแล้ว");
+    alert("✅ บันทึก Token เรียบร้อยแล้ว");
   } else {
-    alert("กรุณาใส่ Token ก่อนกดบันทึก");
+    alert("กรุณาใส่ Token ก่อน");
+  }
+}
+
+async function shareDashboard() {
+  const token = localStorage.getItem("github_token");
+  if (!token) return alert("❌ ไม่พบ Token กรุณาใส่ก่อนใช้งาน");
+
+  const filename = `dashboard_${new Date().toISOString().split("T")[0]}_${Math.floor(Math.random() * 10000)}.html`;
+  const htmlContent = document.documentElement.outerHTML;
+  const base64Content = btoa(unescape(encodeURIComponent(htmlContent)));
+
+  const apiUrl = "https://api.github.com/repos/nonguest-work/dashborad-marketiing/contents/view/" + filename;
+  const response = await fetch(apiUrl, {
+    method: "PUT",
+    headers: {
+      Authorization: "token " + token,
+      Accept: "application/vnd.github.v3+json",
+    },
+    body: JSON.stringify({
+      message: "เพิ่มแดชบอร์ดเวอร์ชันแชร์",
+      content: base64Content,
+    }),
+  });
+
+  const result = await response.json();
+  if (result.content && result.content.download_url) {
+    const url = result.content.download_url.replace("https://raw.githubusercontent.com", "https://nonguest-work.github.io").replace("/main/", "/");
+    navigator.clipboard.writeText(url);
+    alert("✅ สร้างลิงก์สำเร็จ และคัดลอกลิงก์แล้ว:\n" + url);
+  } else {
+    console.log(result);
+    alert("❌ ไม่สามารถสร้างลิงก์ได้");
   }
 }
 </script>
@@ -3171,16 +3198,18 @@ function exportCleanDashboard() {
 }
 </script>
 <div id="share-section" style="text-align: center; padding: 30px;">
-<button id="share-button" onclick="shareDashboard()" style="padding: 12px 24px; background-color: #1565c0; color: white; font-weight: bold; font-size: 16px; border: none; border-radius: 6px; cursor: pointer;">
+<button id="share-button" onclick="generateAndUploadDashboard()" style="padding: 12px 24px; background-color: #1565c0; color: white; font-weight: bold; font-size: 16px; border: none; border-radius: 6px; cursor: pointer;">
     📤 สร้างลิงก์แดชบอร์ด (สำหรับแชร์)
   </button>
 <div id="share-result" style="margin-top: 20px; font-size: 15px; color: #333;"></div>
 </div>
 <div style="text-align:center; margin-top: 10px;">
-<button onclick="setGithubToken()" style="padding: 8px 16px; background-color: #777; color: white; border: none; border-radius: 5px; cursor: pointer;">
+<button onclick="setGitHubToken()" style="padding: 8px 16px; background-color: #777; color: white; border: none; border-radius: 5px; cursor: pointer;">
     🔑 ตั้งค่า GitHub Token
   </button>
 </div>
+
+
 <script>
 const GITHUB_USERNAME = "nonguest-work";
 const REPO_NAME = "dashborad-marketiing";
@@ -3230,7 +3259,6 @@ async function shareDashboard() {
   try {
     const url = await uploadHTMLToGitHub(filename, dashboardHTML);
     alert("สร้างลิงก์สำเร็จ:\n" + url);
-        navigator.clipboard.writeText(url).then(() => console.log("คัดลอกลิงก์แล้ว"));
     const linkDisplay = document.getElementById("link-result");
     if (linkDisplay) {
       linkDisplay.innerHTML = '<a href="' + url + '" target="_blank">' + url + '</a>';
@@ -3240,79 +3268,5 @@ async function shareDashboard() {
   }
 }
 </script>
-<div id="link-result" style="margin-top:10px;"></div><button onclick="copySharedLink()">📋 คัดลอกลิงก์</button><script>
-function copySharedLink() {
-  const linkEl = document.querySelector("#link-result a");
-  if (linkEl) {
-    const url = linkEl.href;
-    navigator.clipboard.writeText(url)
-      .then(() => alert("คัดลอกลิงก์เรียบร้อยแล้ว!"))
-      .catch(() => alert("เกิดข้อผิดพลาดในการคัดลอก"));
-  } else {
-    alert("ยังไม่มีลิงก์ให้คัดลอก");
-  }
-}
-</script>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const isSharedView = window.location.pathname.includes("/view/");
-  if (isSharedView) {
-    const menu = document.querySelector(".top-menu") || document.querySelector("#top-menu");
-    if (menu) menu.style.display = "none";
-  }
-});
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const isSharedView = window.location.pathname.includes("/view/");
-  if (isSharedView) {
-    const selectorsToHide = [
-      "header", ".top-navbar", ".upload-section", ".action-buttons",
-      ".notice-bar", ".main-header", ".menu-bar", ".top-menu", "#top-bar", ".header-menu"
-    ];
-    selectorsToHide.forEach(sel => {
-      const el = document.querySelector(sel);
-      if (el) el.style.display = "none";
-    });
-  }
-});
-</script>
-
-
-<script>
-async function shareDashboard() {
-  const filename = `dashboard_${new Date().toISOString().split("T")[0]}.html`;
-  const htmlContent = document.documentElement.outerHTML;
-  const base64Content = btoa(unescape(encodeURIComponent(htmlContent)));
-
-  const token = localStorage.getItem("github_token");
-  if (!token) return alert("กรุณาใส่ GitHub Token ก่อน");
-
-  const apiUrl = "https://api.github.com/repos/nonguest-work/dashborad-marketiing/contents/view/" + filename;
-  const response = await fetch(apiUrl, {
-    method: "PUT",
-    headers: {
-      Authorization: "token " + token,
-      Accept: "application/vnd.github.v3+json",
-    },
-    body: JSON.stringify({
-      message: "เพิ่มแดชบอร์ดเวอร์ชันแชร์",
-      content: base64Content,
-    }),
-  });
-
-  const result = await response.json();
-  if (result.content && result.content.download_url) {
-    const url = result.content.download_url.replace("https://raw.githubusercontent.com", "https://nonguest-work.github.io").replace("/main/", "/");
-    alert("สร้างลิงก์สำเร็จ:\n" + url);
-    navigator.clipboard.writeText(url);
-  } else {
-    alert("ไม่สามารถสร้างลิงก์ได้");
-    console.log(result);
-  }
-}
-</script>
-
 </body>
 </html>
