@@ -3243,5 +3243,22 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const isSharedView = window.location.pathname.includes("/view/");
+  if (isSharedView) {
+    const selectorsToHide = [
+      "header", ".top-navbar", ".upload-section", ".action-buttons",
+      ".notice-bar", ".main-header", ".menu-bar", ".top-menu", "#top-bar", ".header-menu"
+    ];
+    selectorsToHide.forEach(sel => {
+      const el = document.querySelector(sel);
+      if (el) el.style.display = "none";
+    });
+  }
+});
+</script>
+
 </body>
 </html>
