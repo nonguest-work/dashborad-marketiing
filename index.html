@@ -3205,6 +3205,7 @@ async function shareDashboard() {
   try {
     const url = await uploadHTMLToGitHub(filename, dashboardHTML);
     alert("สร้างลิงก์สำเร็จ:\n" + url);
+        navigator.clipboard.writeText(url).then(() => console.log("คัดลอกลิงก์แล้ว"));
     const linkDisplay = document.getElementById("link-result");
     if (linkDisplay) {
       linkDisplay.innerHTML = '<a href="' + url + '" target="_blank">' + url + '</a>';
