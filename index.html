@@ -1559,6 +1559,24 @@
                     ❓ วิธีใช้
                 </button></div></header>
 <script>
+
+  // ⏳ รอให้ข้อมูลแดชบอร์ดแสดงผลก่อนอัปโหลด
+  function waitForRender() {
+    return new Promise(resolve => {
+      const checkReady = () => {
+        const hasCharts = document.querySelectorAll("canvas").length > 0;
+        const hasTables = document.querySelectorAll("table").length > 0;
+        if (hasCharts || hasTables) {
+          resolve();
+        } else {
+          setTimeout(checkReady, 500);
+        }
+      };
+      checkReady();
+    });
+  }
+
+
         let combinedChart, facebookChart, tiktokChart;
 
         // ข้อมูลแบบ Dynamic - รองรับทั้ง 12 เดือน
@@ -3206,6 +3224,7 @@ async function uploadHTMLToGitHub(filename, htmlContent) {
 }
 
 async function shareDashboard() {
+  await waitForRender();
   const dashboardHTML = document.documentElement.outerHTML;
   const filename = "dashboard_" + new Date().toISOString().replace(/[:.]/g, "-") + ".html";
   try {
