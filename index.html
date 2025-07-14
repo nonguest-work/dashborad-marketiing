@@ -3146,18 +3146,16 @@ function exportCleanDashboard() {
 }
 </script>
 <div id="share-section" style="text-align: center; padding: 30px;">
-<button id="share-button" onclick="generateAndUploadDashboard()" style="padding: 12px 24px; background-color: #1565c0; color: white; font-weight: bold; font-size: 16px; border: none; border-radius: 6px; cursor: pointer;">
+<button id="share-button" onclick="shareDashboard()" style="padding: 12px 24px; background-color: #1565c0; color: white; font-weight: bold; font-size: 16px; border: none; border-radius: 6px; cursor: pointer;">
     📤 สร้างลิงก์แดชบอร์ด (สำหรับแชร์)
   </button>
 <div id="share-result" style="margin-top: 20px; font-size: 15px; color: #333;"></div>
 </div>
 <div style="text-align:center; margin-top: 10px;">
-<button onclick="setGitHubToken()" style="padding: 8px 16px; background-color: #777; color: white; border: none; border-radius: 5px; cursor: pointer;">
+<button onclick="setGithubToken()" style="padding: 8px 16px; background-color: #777; color: white; border: none; border-radius: 5px; cursor: pointer;">
     🔑 ตั้งค่า GitHub Token
   </button>
 </div>
-
-
 <script>
 const GITHUB_USERNAME = "nonguest-work";
 const REPO_NAME = "dashborad-marketiing";
