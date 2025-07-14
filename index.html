@@ -3260,5 +3260,40 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
+
+<script>
+async function shareDashboard() {
+  const filename = `dashboard_${new Date().toISOString().split("T")[0]}.html`;
+  const htmlContent = document.documentElement.outerHTML;
+  const base64Content = btoa(unescape(encodeURIComponent(htmlContent)));
+
+  const token = localStorage.getItem("github_token");
+  if (!token) return alert("กรุณาใส่ GitHub Token ก่อน");
+
+  const apiUrl = "https://api.github.com/repos/nonguest-work/dashborad-marketiing/contents/view/" + filename;
+  const response = await fetch(apiUrl, {
+    method: "PUT",
+    headers: {
+      Authorization: "token " + token,
+      Accept: "application/vnd.github.v3+json",
+    },
+    body: JSON.stringify({
+      message: "เพิ่มแดชบอร์ดเวอร์ชันแชร์",
+      content: base64Content,
+    }),
+  });
+
+  const result = await response.json();
+  if (result.content && result.content.download_url) {
+    const url = result.content.download_url.replace("https://raw.githubusercontent.com", "https://nonguest-work.github.io").replace("/main/", "/");
+    alert("สร้างลิงก์สำเร็จ:\n" + url);
+    navigator.clipboard.writeText(url);
+  } else {
+    alert("ไม่สามารถสร้างลิงก์ได้");
+    console.log(result);
+  }
+}
+</script>
+
 </body>
 </html>
