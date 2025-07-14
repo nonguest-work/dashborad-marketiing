@@ -3227,5 +3227,15 @@ function copySharedLink() {
     alert("ยังไม่มีลิงก์ให้คัดลอก");
   }
 }
-</script></body>
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const isSharedView = window.location.pathname.includes("/view/");
+  if (isSharedView) {
+    const menu = document.querySelector(".top-menu") || document.querySelector("#top-menu");
+    if (menu) menu.style.display = "none";
+  }
+});
+</script>
+</body>
 </html>
