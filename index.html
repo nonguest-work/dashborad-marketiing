@@ -1230,6 +1230,25 @@
 </style>
 </head>
 <body>
+
+<div style="padding: 1em; background: #f7f7f7; border-bottom: 1px solid #ddd;">
+  <label for="tokenInput"><strong>GitHub Token:</strong></label>
+  <input id="tokenInput" type="password" placeholder="ใส่ GitHub Token ที่นี่" style="width: 300px;" />
+  <button onclick="setGitHubToken()">💾 บันทึก Token</button>
+</div>
+
+<script>
+function setGitHubToken() {
+  const token = document.getElementById("tokenInput").value.trim();
+  if (token) {
+    localStorage.setItem("github_token", token);
+    alert("บันทึก Token แล้วในเครื่องนี้เรียบร้อยแล้ว");
+  } else {
+    alert("กรุณาใส่ Token ก่อนกดบันทึก");
+  }
+}
+</script>
+
 <div id="main-wrapper" style="max-width: 1000px; margin: 0 auto;">
 <div class="no-print" id="uploader-panel" style="margin-bottom: 20px; text-align: center;">
 <h3>📂 อัปโหลดไฟล์ Excel เพื่อคำนวณข้อมูล 12 เดือน</h3>
