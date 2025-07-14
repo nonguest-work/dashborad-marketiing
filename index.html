@@ -3214,5 +3214,17 @@ async function shareDashboard() {
   }
 }
 </script>
-</body>
+<div id="link-result" style="margin-top:10px;"></div><button onclick="copySharedLink()">📋 คัดลอกลิงก์</button><script>
+function copySharedLink() {
+  const linkEl = document.querySelector("#link-result a");
+  if (linkEl) {
+    const url = linkEl.href;
+    navigator.clipboard.writeText(url)
+      .then(() => alert("คัดลอกลิงก์เรียบร้อยแล้ว!"))
+      .catch(() => alert("เกิดข้อผิดพลาดในการคัดลอก"));
+  } else {
+    alert("ยังไม่มีลิงก์ให้คัดลอก");
+  }
+}
+</script></body>
 </html>
