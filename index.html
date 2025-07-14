@@ -3181,23 +3181,6 @@ async function uploadHTMLToGitHub(filename, htmlContent) {
   const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${TARGET_FOLDER}/${filename}`;
   const base64Content = btoa(unescape(encodeURIComponent(htmlContent)));
 
-  let sha = null;
-  try {
-    const getResponse = await fetch(apiUrl, {
-      headers: {
-        Authorization: `token ${GITHUB_TOKEN}`,
-        Accept: "application/vnd.github.v3+json",
-      },
-    });
-
-    if (getResponse.ok) {
-      const data = await getResponse.json();
-      sha = data.sha;
-    }
-  } catch (err) {
-    console.warn("ไม่พบไฟล์เดิม:", err);
-  }
-
   const response = await fetch(apiUrl, {
     method: "PUT",
     headers: {
@@ -3205,9 +3188,8 @@ async function uploadHTMLToGitHub(filename, htmlContent) {
       Accept: "application/vnd.github.v3+json",
     },
     body: JSON.stringify({
-      message: `Update ${filename}`,
-      content: base64Content,
-      ...(sha ? { sha } : {})
+      message: `Create ${filename}`,
+      content: base64Content
     }),
   });
 
