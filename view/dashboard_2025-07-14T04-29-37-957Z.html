@@ -1,0 +1,3487 @@
+<html lang="th" style="font-size: 16px;"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>รายงานการติดตามลูกค้ามุ่งหวังดิจิตอล - โตโยต้าพิธานปัตตานี</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+
+        .print-section {
+            background: #e8f5e8;
+            padding: 15px 30px;
+            border-bottom: 1px solid #c3e6cb;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .print-options {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .print-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .print-info {
+            color: #155724;
+            font-size: 0.9rem;
+            margin-left: auto;
+        }
+
+        /* Print Styles - Optimized for A4 */
+        @media print {
+            @page {
+                size: A4;
+                margin: 12mm;
+            }
+
+            body {
+                background: white !important;
+                padding: 0 !important;
+                font-size: 10px !important;
+                line-height: 1.2 !important;
+                color: #000 !important;
+            }
+
+            .container {
+                background: white !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                max-width: none !important;
+                margin: 0 !important;
+            }
+
+            .print-section,
+            .tabs-container,
+            .loading,
+            .print-btn {
+                display: none !important;
+            }
+
+            .header {
+                background: #e74c3c !important;
+                color: white !important;
+                padding: 10px !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                page-break-inside: avoid;
+            }
+
+            .header::before {
+                display: none !important;
+            }
+
+            .header h1 {
+                font-size: 1.3rem !important;
+                margin-bottom: 5px !important;
+                line-height: 1.1 !important;
+            }
+
+            .header p {
+                font-size: 0.8rem !important;
+                margin: 0 !important;
+            }
+
+            .tab-content {
+                display: block !important;
+            }
+
+            .tab-content:not(.print-active) {
+                display: none !important;
+            }
+
+            .platform-header {
+                background: #f8f9fa !important;
+                color: #000 !important;
+                padding: 8px !important;
+                margin-bottom: 6px !important;
+                border: 1px solid #ddd !important;
+                page-break-inside: avoid;
+            }
+
+            .platform-header.facebook {
+                background: #e3f2fd !important;
+                border-color: #1877f2 !important;
+            }
+
+            .platform-header.tiktok {
+                background: #fce4ec !important;
+                border-color: #ff0050 !important;
+            }
+
+            .platform-header h2 {
+                font-size: 1.1rem !important;
+                margin-bottom: 3px !important;
+            }
+
+            .platform-period {
+                font-size: 0.75rem !important;
+            }
+
+            .summary-cards {
+                grid-template-columns: repeat(4, 1fr) !important;
+                gap: 6px !important;
+                padding: 6px 0 !important;
+                page-break-inside: avoid;
+                margin-bottom: 8px !important;
+            }
+
+            .summary-card {
+                padding: 6px !important;
+                border-radius: 3px !important;
+                background: white !important;
+                border: 1px solid #ddd !important;
+                box-shadow: none !important;
+                text-align: center !important;
+            }
+
+            .summary-card::before {
+                display: none !important;
+            }
+
+            .summary-card.facebook {
+                border-color: #1877f2 !important;
+                border-width: 2px !important;
+            }
+
+            .summary-card.tiktok {
+                border-color: #ff0050 !important;
+                border-width: 2px !important;
+            }
+
+            .summary-card.success {
+                border-color: #28a745 !important;
+                border-width: 2px !important;
+            }
+
+            .summary-card.quality {
+                border-color: #9b59b6 !important;
+                border-width: 2px !important;
+            }
+
+            .card-number {
+                font-size: 1.1rem !important;
+                margin-bottom: 3px !important;
+                font-weight: bold !important;
+                color: #000 !important;
+            }
+
+            .card-label {
+                font-size: 0.65rem !important;
+                color: #555 !important;
+                line-height: 1 !important;
+            }
+
+            .charts-section {
+                padding: 6px 0 !important;
+            }
+
+            .chart-container {
+                margin-bottom: 10px !important;
+                padding: 6px !important;
+                page-break-inside: avoid;
+                border: 1px solid #eee !important;
+            }
+
+            .chart-title {
+                font-size: 0.9rem !important;
+                margin-bottom: 5px !important;
+                font-weight: bold !important;
+            }
+
+            .monthly-details {
+                grid-template-columns: repeat(4, 1fr) !important;
+                gap: 4px !important;
+                padding: 6px 0 !important;
+            }
+
+            .month-card {
+                padding: 5px !important;
+                page-break-inside: avoid;
+                border: 1px solid #ddd !important;
+                break-inside: avoid;
+            }
+
+            .month-title {
+                font-size: 0.75rem !important;
+                margin-bottom: 4px !important;
+                padding-bottom: 2px !important;
+                border-bottom: 1px solid #eee !important;
+                text-align: center !important;
+            }
+
+            .month-stats {
+                grid-template-columns: 1fr !important;
+                gap: 2px !important;
+            }
+
+            .stat-item {
+                padding: 1px 0 !important;
+                font-size: 0.6rem !important;
+                border-bottom: none !important;
+            }
+
+            .stat-label {
+                color: #666 !important;
+            }
+
+            .stat-value {
+                color: #000 !important;
+                font-weight: bold !important;
+            }
+
+            .booking-details {
+                padding: 6px !important;
+                page-break-inside: avoid;
+                margin-bottom: 8px !important;
+            }
+
+            .booking-title {
+                font-size: 0.9rem !important;
+                margin-bottom: 6px !important;
+            }
+
+            .booking-list {
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 4px !important;
+            }
+
+            .booking-item {
+                padding: 4px !important;
+                font-size: 0.65rem !important;
+                border: 1px solid #ddd !important;
+                page-break-inside: avoid;
+            }
+
+            .booking-customer {
+                font-size: 0.7rem !important;
+                margin-bottom: 2px !important;
+            }
+
+            .overview-grid {
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 6px !important;
+                padding: 6px 0 !important;
+            }
+
+            .overview-card {
+                padding: 6px !important;
+                page-break-inside: avoid;
+                border: 1px solid #ddd !important;
+            }
+
+            .overview-card h3 {
+                font-size: 0.8rem !important;
+                margin-bottom: 4px !important;
+                padding-bottom: 2px !important;
+            }
+
+            .quality-meter {
+                margin: 4px 0 !important;
+            }
+
+            .quality-meter-label {
+                font-size: 0.65rem !important;
+                margin-bottom: 2px !important;
+            }
+
+            .quality-meter-bar {
+                height: 4px !important;
+            }
+
+            .comparison-chart {
+                height: 60px !important;
+                padding: 6px !important;
+            }
+
+            .bar {
+                width: 20px !important;
+                font-size: 0.5rem !important;
+                padding: 1px !important;
+            }
+
+            .bar-label {
+                font-size: 0.6rem !important;
+            }
+
+            .footer {
+                padding: 6px !important;
+                font-size: 0.6rem !important;
+                background: #2c3e50 !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                page-break-inside: avoid;
+                margin-top: 8px !important;
+            }
+
+            .page-break {
+                page-break-before: always;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            canvas {
+                max-width: 100% !important;
+                height: 150px !important;
+                page-break-inside: avoid;
+            }
+
+            .summary-cards,
+            .booking-details,
+            .chart-container {
+                page-break-inside: avoid;
+            }
+
+            .tab-content + .tab-content {
+                page-break-before: always;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            * {
+                overflow: visible !important;
+            }
+
+            /* แสดงผลแบบต่อเนื่องสำหรับ 12 เดือน */
+            .monthly-details {
+                grid-template-columns: repeat(6, 1fr) !important;
+                gap: 3px !important;
+            }
+
+            .month-card {
+                font-size: 0.55rem !important;
+                padding: 3px !important;
+            }
+        }
+
+        .tabs-container {
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            color: #6c757d;
+        }
+
+        .tab.active {
+            background: white;
+            color: #2c3e50;
+            border-bottom: 3px solid #e74c3c;
+        }
+
+        .tab.facebook.active {
+            border-bottom-color: #1877f2;
+        }
+
+        .tab.tiktok.active {
+            border-bottom-color: #ff0050;
+        }
+
+        .tab:hover:not(.active) {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .platform-header {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .platform-header.facebook {
+            background: linear-gradient(135deg, #1877f2 0%, #166fe5 100%);
+            color: white;
+        }
+
+        .platform-header.tiktok {
+            background: linear-gradient(135deg, #ff0050 0%, #e60045 100%);
+            color: white;
+        }
+
+        .platform-header h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .platform-period {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .summary-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+            transform: translate(50%, -50%) rotate(45deg);
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .summary-card.facebook {
+            border-left-color: #1877f2;
+        }
+
+        .summary-card.tiktok {
+            border-left-color: #ff0050;
+        }
+
+        .summary-card.success {
+            border-left-color: #27ae60;
+        }
+
+        .summary-card.quality {
+            border-left-color: #9b59b6;
+        }
+
+        .card-number {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .card-label {
+            font-size: 0.95rem;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .charts-section {
+            padding: 30px;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .booking-details {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .booking-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #27ae60;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .booking-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .booking-item {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #27ae60;
+            transition: all 0.3s ease;
+        }
+
+        .booking-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .booking-customer {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .booking-details-text {
+            font-size: 0.9rem;
+            color: #6c757d;
+            line-height: 1.4;
+        }
+
+        .monthly-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            padding: 30px;
+            background: #ecf0f1;
+        }
+
+        .month-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .month-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .month-card.no-data {
+            opacity: 0.5;
+            background: #f8f9fa;
+        }
+
+        .month-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .month-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            font-size: 0.85rem;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .stat-value.highlight {
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .stat-value.quality {
+            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 30px;
+        }
+
+        .overview-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .overview-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+        }
+
+        .comparison-chart {
+            height: 200px;
+            display: flex;
+            align-items: end;
+            justify-content: space-around;
+            background: linear-gradient(to top, #f8f9fa 0%, transparent 100%);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .comparison-bar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bar {
+            width: 40px;
+            background: linear-gradient(to top, #3498db, #2980b9);
+            border-radius: 5px 5px 0 0;
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+            padding: 5px;
+            min-height: 30px;
+        }
+
+        .bar.facebook {
+            background: linear-gradient(to top, #1877f2, #166fe5);
+        }
+
+        .bar.tiktok {
+            background: linear-gradient(to top, #ff0050, #e60045);
+        }
+
+        .bar-label {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .quality-meter {
+            margin: 15px 0;
+        }
+
+        .quality-meter-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .quality-meter-bar {
+            background: #ecf0f1;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .quality-meter-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .quality-meter-fill.facebook {
+            background: linear-gradient(90deg, #1877f2, #166fe5);
+        }
+
+        .quality-meter-fill.tiktok {
+            background: linear-gradient(90deg, #ff0050, #e60045);
+        }
+
+        .quality-meter-fill.overall {
+            background: linear-gradient(90deg, #9b59b6, #8e44ad);
+        }
+
+        .trending-up {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .trending-down {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #e74c3c;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        .upload-section {
+            background: #f8f9fa;
+            padding: 20px 30px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .upload-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .upload-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 12px 15px;
+            border: 2px dashed #6c757d;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .upload-input:hover {
+            border-color: #e74c3c;
+            background: #fff5f5;
+        }
+
+        .upload-input.dragover {
+            border-color: #e74c3c;
+            background: #fff5f5;
+            transform: scale(1.02);
+        }
+
+        .upload-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .upload-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .last-updated {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-left: auto;
+        }
+
+        .share-section {
+            background: #e8f4f8;
+            padding: 15px 30px;
+            border-bottom: 1px solid #bee5eb;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .share-options {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .share-info {
+            color: #0c5460;
+            font-size: 0.9rem;
+            margin-left: auto;
+        }
+
+        .viewer-mode .upload-section,
+        .viewer-mode .share-section {
+            display: none !important;
+        }
+
+        .viewer-mode .print-info::after {
+            content: " | 👁️ โหมดดูอย่างเดียว";
+            color: #6c757d;
+        }
+
+        .viewer-notice {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            margin: 0 30px 20px 30px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .summary-cards {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .monthly-details {
+                grid-template-columns: 1fr;
+                padding: 15px;
+            }
+
+            .overview-grid {
+                grid-template-columns: 1fr;
+                padding: 15px;
+            }
+
+            .print-section {
+                padding: 10px 15px;
+            }
+
+            .print-options {
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .print-btn {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+                flex: 1;
+                min-width: 120px;
+            }
+
+            .print-info {
+                margin-left: 0;
+                text-align: center;
+                font-size: 0.8rem;
+                margin-top: 10px;
+            }
+        }
+    </style>
+<style>
+@media screen {
+    .container {
+        width: 794px; /* A4 width in pixels at 96dpi */
+        margin: 0 auto;
+        zoom: 0.9;
+    }
+}
+</style>
+<style>
+.top-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    background: #fff;
+    z-index: 1000;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.dashboard-container {
+    margin-top: 140px;
+    padding: 20px;
+}
+@media print {
+    .top-navbar {
+        display: none !important;
+    }
+    .dashboard-container {
+        margin-top: 0 !important;
+    }
+}
+</style>
+<style>
+@media print {
+    .nav-tabs, .tab-pane {
+        display: block !important;
+    }
+    .tab-content .tab-pane {
+        display: block !important;
+        page-break-before: always;
+    }
+    .tab-pane + .tab-pane {
+        page-break-before: always;
+    }
+    .no-print {
+        display: none !important;
+    }
+    .print-btn {
+        display: none !important;
+    }
+    .container {
+        width: 794px !important;
+        margin: 0 auto;
+    }
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+}
+</style><style>
+@media print {
+    .tab-content .tab-pane * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        color: #000 !important;
+        background: transparent !important;
+        opacity: 1 !important;
+        filter: none !important;
+    }
+    canvas {
+        image-rendering: pixelated !important;
+        opacity: 1 !important;
+    }
+}
+</style>
+<style>
+.action-buttons-bar button {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.action-buttons-bar button:hover {
+    background-color: #e0e0e0;
+}
+@media print {
+    .action-buttons-bar {
+        display: none !important;
+    }
+}
+</style>
+<style>
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    .tab-pane {
+        display: block !important;
+        page-break-before: always;
+    }
+    .tab-pane:first-child {
+        page-break-before: auto;
+    }
+    body, #dashboard-panel {
+        width: 794px;
+        margin: 0 auto;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+}
+</style>
+<style>
+#main-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+#uploader-panel {
+  margin-bottom: 20px;
+}
+.container, #dashboard-panel {
+  width: 100% !important;
+}
+@media print {
+  body, #dashboard-panel {
+    width: 794px !important;
+    margin: 0 auto !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+}
+</style>
+<style>
+@media print {
+  .tab-pane {
+    display: block !important;
+    opacity: 1 !important;
+    transform: none !important;
+    page-break-before: always;
+  }
+  .tab-pane:first-child {
+    page-break-before: auto;
+  }
+  .no-print {
+    display: none !important;
+  }
+  body, #dashboard-panel {
+    width: 794px !important;
+    margin: 0 auto !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+}
+</style>
+</head>
+<body>
+<div id="main-wrapper" style="max-width: 1000px; margin: 0 auto;">
+<div class="no-print" id="uploader-panel" style="margin-bottom: 20px; text-align: center;">
+<h3>📂 อัปโหลดไฟล์ Excel เพื่อคำนวณข้อมูล 12 เดือน</h3>
+<input accept=".xlsx,.xls,.csv" id="excelFile" type="file">
+<p style="margin-top: 10px; font-size: 0.9em;">รองรับ .xlsx, .xls, .csv</p>
+</div>
+<div id="dashboard-panel" style="margin-top: 40px;"><div class="container"><main class="dashboard-container"><div class="header">
+<h1>🚗 รายงานการติดตามลูกค้ามุ่งหวัง</h1>
+<p>การตลาดดิจิตอล Facebook &amp; TikTok | โตโยต้าพิธานปัตตานี | ปี 2568</p>
+</div><div class="loading" id="loading" style="display: none;">
+<div class="spinner"></div>
+<p id="loadingText">กำลังอัพเดทการแสดงผล...</p>
+</div><div class="data-period-info">
+<strong>📊 ช่วงข้อมูลปัจจุบัน:</strong>
+<span id="dataPeriodDisplay">ม.ค. - มิ.ย. 2568 (6 เดือน)</span> | 
+            <strong>📈 ระบบรองรับ:</strong> ข้อมูลทั้ง 12 เดือน (อัตโนมัติ) | 
+            <strong>📂 รองรับ:</strong> อัพโหลด Excel อัตโนมัติ
+        </div><div class="tabs-container">
+<div class="tabs">
+<button class="tab active" onclick="showTab('overview')">📊 ภาพรวม</button>
+<button class="tab facebook" onclick="showTab('facebook')">📘 Facebook</button>
+<button class="tab tiktok" onclick="showTab('tiktok')">🎵 TikTok</button>
+</div>
+</div><div class="tab-content active" id="overview" style="display: block;">
+<div class="overview-grid">
+<div class="overview-card">
+<h3>📈 สรุปผลรวม <span id="overviewMonthCount">(6 เดือน)</span></h3>
+<div class="summary-cards">
+<div class="summary-card">
+<div class="card-number" id="overviewTotal">594</div>
+<div class="card-label">ลูกค้าทั้งหมด</div>
+</div>
+<div class="summary-card quality">
+<div class="card-number" id="overviewQuality">27.6%</div>
+<div class="card-label">🎯 Lead คุณภาพ</div>
+</div>
+<div class="summary-card facebook">
+<div class="card-number" id="overviewFacebook">558</div>
+<div class="card-label">Facebook</div>
+</div>
+<div class="summary-card tiktok">
+<div class="card-number" id="overviewTikTok">36</div>
+<div class="card-label">TikTok</div>
+</div>
+<div class="summary-card success">
+<div class="card-number" id="overviewSuccess">9</div>
+<div class="card-label">จองรถแล้ว</div>
+</div>
+</div>
+</div>
+<div class="overview-card">
+<h3>🎯 คุณภาพ Lead ตาม Platform</h3>
+<div style="padding: 20px;">
+<div class="quality-meter">
+<div class="quality-meter-label">
+<span>📘 Facebook <span id="fbPeriodText">(6 เดือน)</span></span>
+<span><strong class="trending-up" id="fbQualityPercent">27.8% ↗️</strong> (<span id="fbQualityRatio">155/558</span>)</span>
+</div>
+<div class="quality-meter-bar">
+<div class="quality-meter-fill facebook" id="fbQualityBar" style="width: 100%;"></div>
+</div>
+</div>
+<div class="quality-meter">
+<div class="quality-meter-label">
+<span>🎵 TikTok <span id="ttPeriodText">(3 เดือน)</span></span>
+<span><strong id="ttQualityPercent">25%</strong> (<span id="ttQualityRatio">9/36</span>)</span>
+</div>
+<div class="quality-meter-bar">
+<div class="quality-meter-fill tiktok" id="ttQualityBar" style="width: 60%;"></div>
+</div>
+</div>
+<div class="quality-meter">
+<div class="quality-meter-label">
+<span>📊 รวมทั้งหมด</span>
+<span><strong id="overallQualityPercent">27.6%</strong> (<span id="overallQualityRatio">164/594</span>)</span>
+</div>
+<div class="quality-meter-bar">
+<div class="quality-meter-fill overall" id="overallQualityBar" style="width: 98%;"></div>
+</div>
+</div>
+<p style="margin-top: 15px; font-size: 0.9rem; color: #6c757d; text-align: center;">
+                            📞 Lead คุณภาพ = ลูกค้าที่มีเบอร์ติดต่อได้<br>
+                            🚀 ระบบคำนวณอัตโนมัติจากข้อมูลจริง
+                        </p>
+</div>
+</div>
+<div class="overview-card">
+<h3>⚖️ เปรียบเทียบ Platform</h3>
+<div class="comparison-chart">
+<div class="comparison-bar">
+<div class="bar facebook" id="comparisonFbBar" style="height: 180px;">505</div>
+<div class="bar-label">Facebook</div>
+</div>
+<div class="comparison-bar">
+<div class="bar tiktok" id="comparisonTtBar" style="height: 20px;">24</div>
+<div class="bar-label">TikTok</div>
+</div>
+</div>
+<p id="comparisonText" style="text-align: center; color: #6c757d; font-size: 0.9rem;">
+                        Facebook มีลูกค้ามากกว่า TikTok ประมาณ 21 เท่า<br>
+                        และมี Lead คุณภาพสูงกว่าด้วย!
+                    </p>
+</div>
+<div class="overview-card">
+<h3>📅 การใช้งานตามช่วงเวลา</h3>
+<div style="padding: 20px;">
+<div style="margin-bottom: 15px; padding: 15px; background: #e3f2fd; border-radius: 8px; border-left: 4px solid #1877f2;">
+<strong>📘 Facebook Active</strong><br>
+<span id="fbDateRange" style="color: #6c757d;">ม.ค. - มิ.ย. 2568 (6 เดือน)</span><br>
+<span id="fbSummaryText" style="font-size: 0.9rem;">558 leads, 7 bookings (1.25%), 155 คุณภาพ (27.8%)</span><br>
+<span id="fbTrendText" style="font-size: 0.85rem; color: #27ae60;">📈 เทรนด์ดีขึ้น: 28.6% → 44.4%</span>
+</div>
+<div style="padding: 15px; background: #fce4ec; border-radius: 8px; border-left: 4px solid #ff0050;">
+<strong>🎵 TikTok Active</strong><br>
+<span id="ttDateRange" style="color: #6c757d;">เม.ย. - มิ.ย. 2568 (3 เดือน)</span><br>
+<span id="ttSummaryText" style="font-size: 0.9rem;">36 leads, 2 bookings (5.56%), 9 คุณภาพ (25%)</span><br>
+<span style="font-size: 0.85rem; color: #f39c12;">📊 อัตราแปลงสูง แต่ปริมาณน้อย</span>
+</div>
+</div>
+</div>
+<div class="overview-card">
+<h3>🏆 อัตราความสำเร็จ</h3>
+<div style="padding: 20px;">
+<div style="margin-bottom: 15px;">
+<div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+<span>การแปลง → จอง</span>
+<span></span>
+</div>
+<div style="margin-bottom: 10px;">
+<div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 3px;">
+<span>Facebook</span>
+<span><strong id="fbConversionRate">1.25%</strong></span>
+</div>
+<div style="background: #ecf0f1; height: 6px; border-radius: 3px; overflow: hidden;">
+<div id="fbConversionBar" style="background: rgb(24, 119, 242); height: 100%; border-radius: 3px; width: 22.482%;"></div>
+</div>
+</div>
+<div>
+<div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 3px;">
+<span>TikTok</span>
+<span><strong id="ttConversionRate">5.56%</strong></span>
+</div>
+<div style="background: #ecf0f1; height: 6px; border-radius: 3px; overflow: hidden;">
+<div id="ttConversionBar" style="background: rgb(255, 0, 80); height: 100%; border-radius: 3px; width: 100%;"></div>
+</div>
+</div>
+</div>
+<p style="font-size: 0.85rem; color: #6c757d; text-align: center;">
+                            🎯 TikTok: อัตราแปลงสูง แต่ปริมาณน้อย<br>
+                            📘 Facebook: ปริมาณสูง + Lead คุณภาพดีขึ้น = แนวโน้มดี
+                        </p>
+</div>
+</div>
+<div class="overview-card">
+<h3>📊 ข้อมูลสถิติเพิ่มเติม</h3>
+<div style="padding: 20px;">
+<div style="margin-bottom: 15px;">
+<div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+<span>📅 ช่วงข้อมูล:</span>
+<span><strong id="dateRangeDisplay">ม.ค. - มิ.ย. 2568</strong></span>
+</div>
+<div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+<span>📊 จำนวนเดือนที่มีข้อมูล:</span>
+<span><strong id="totalMonthsDisplay">6 เดือน</strong></span>
+</div>
+<div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+<span>📈 เฉลี่ยลูกค้าต่อเดือน:</span>
+<span><strong id="avgLeadsPerMonth">99 คน</strong></span>
+</div>
+<div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+<span>🎯 เฉลี่ย Lead คุณภาพต่อเดือน:</span>
+<span><strong id="avgQualityPerMonth">27 คน</strong></span>
+</div>
+<div style="display: flex; justify-content: space-between; padding: 8px 0;">
+<span>🚗 เฉลี่ยการจองต่อเดือน:</span>
+<span><strong id="avgBookingsPerMonth">1.5 คัน</strong></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Combined Chart -->
+<div class="charts-section">
+<div class="chart-container">
+<div class="chart-title">📈 ลูกค้ามุ่งหวังรายเดือน - เปรียบเทียบ Platform</div>
+<canvas id="combinedChart" style="box-sizing: border-box; display: block; height: 475px; width: 951px;" width="951" height="475"></canvas>
+</div>
+</div>
+</div><div class="tab-content" id="facebook" style="display: block;">
+<div class="platform-header facebook">
+<h2>📘 Facebook Marketing</h2>
+<p class="platform-period" id="fbHeaderPeriod">ช่วงเวลา: ม.ค. - มิ.ย. 2568 | ระยะเวลา: 6 เดือน</p>
+</div>
+<div class="summary-cards">
+<div class="summary-card facebook">
+<div class="card-number" id="fbTotalLeads">558</div>
+<div class="card-label">ลูกค้าทั้งหมด</div>
+</div>
+<div class="summary-card quality">
+<div class="card-number" id="fbQuality">27.8%</div>
+<div class="card-label">🎯 Lead คุณภาพ</div>
+</div>
+<div class="summary-card">
+<div class="card-number" id="fbQualityCount">155</div>
+<div class="card-label">มีเบอร์ติดต่อ</div>
+</div>
+<div class="summary-card">
+<div class="card-number" id="fbAvgMonth">93</div>
+<div class="card-label">เฉลี่ยต่อเดือน</div>
+</div>
+<div class="summary-card success">
+<div class="card-number" id="fbBookings">7</div>
+<div class="card-label">จองรถแล้ว</div>
+</div>
+<div class="summary-card">
+<div class="card-number" id="fbConversion">1.25%</div>
+<div class="card-label">อัตราความสำเร็จ</div>
+</div>
+</div>
+<!-- Facebook Booking Details -->
+<div class="charts-section">
+<div class="booking-details">
+<div class="booking-title">
+                        🎉 ลูกค้าที่จองรถผ่าน Facebook (<span id="fbBookingCount">7</span> คัน)
+                    </div>
+<div class="booking-list" id="fbBookingList">
+                    <div class="booking-item">
+                        <div class="booking-customer">Saku Wan</div>
+                        <div class="booking-details-text">
+                            🚗 รุ่นรถ: Yaris<br>
+                            📅 วันที่: 31/1/2568<br>
+                            👤 เซลล์: วรารัตน์
+                        </div>
+                    </div>
+                
+                    <div class="booking-item">
+                        <div class="booking-customer">มัง ช่างลุกมาน</div>
+                        <div class="booking-details-text">
+                            🚗 รุ่นรถ: Revo D<br>
+                            📅 วันที่: 10/2/2568<br>
+                            👤 เซลล์: มูฮำหมัด
+                        </div>
+                    </div>
+                
+                    <div class="booking-item">
+                        <div class="booking-customer">Wawee Sensana</div>
+                        <div class="booking-details-text">
+                            🚗 รุ่นรถ: Ativ<br>
+                            📅 วันที่: 26/2/2568<br>
+                            👤 เซลล์: อานิสา
+                        </div>
+                    </div>
+                
+                    <div class="booking-item">
+                        <div class="booking-customer">Saifu</div>
+                        <div class="booking-details-text">
+                            🚗 รุ่นรถ: Revo Z<br>
+                            📅 วันที่: 27/2/2568<br>
+                            👤 เซลล์: ชาริณีย์
+                        </div>
+                    </div>
+                
+                    <div class="booking-item">
+                        <div class="booking-customer">ลูกค้าเดือนเมษายน</div>
+                        <div class="booking-details-text">
+                            🚗 รุ่นรถ: (รอข้อมูล)<br>
+                            📅 วันที่: เมษายน 2568<br>
+                            👤 เซลล์: (รอข้อมูล)
+                        </div>
+                    </div>
+                
+                    <div class="booking-item">
+                        <div class="booking-customer">ลูกค้าเดือนพฤษภาคม</div>
+                        <div class="booking-details-text">
+                            🚗 รุ่นรถ: (รอข้อมูล)<br>
+                            📅 วันที่: พฤษภาคม 2568<br>
+                            👤 เซลล์: (รอข้อมูล)
+                        </div>
+                    </div>
+                </div>
+</div>
+<div class="chart-container">
+<div class="chart-title">📊 Facebook - ลูกค้า &amp; Lead คุณภาพรายเดือน</div>
+<canvas id="facebookChart"></canvas>
+</div>
+</div>
+<div class="monthly-details" id="fbMonthlyDetails">
+                    <div class="month-card">
+                        <div class="month-title">🗓️ มค. 2568</div>
+                        <div class="month-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">ลูกค้าใหม่:</span>
+                                <span class="stat-value">119</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">มีเบอร์ติดต่อ:</span>
+                                <span class="stat-value quality">34 (28.6%)</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">จองรถแล้ว:</span>
+                                <span class="stat-value highlight">1</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">% ความสำเร็จ:</span>
+                                <span class="stat-value">0.84%</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="month-card">
+                        <div class="month-title">🗓️ กพ. 2568</div>
+                        <div class="month-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">ลูกค้าใหม่:</span>
+                                <span class="stat-value">202</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">มีเบอร์ติดต่อ:</span>
+                                <span class="stat-value quality">35 (17.3%)</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">จองรถแล้ว:</span>
+                                <span class="stat-value highlight">3</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">% ความสำเร็จ:</span>
+                                <span class="stat-value">1.49%</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="month-card">
+                        <div class="month-title">🗓️ มีค. 2568</div>
+                        <div class="month-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">ลูกค้าใหม่:</span>
+                                <span class="stat-value">59</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">มีเบอร์ติดต่อ:</span>
+                                <span class="stat-value quality">20 (33.9%)</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">จองรถแล้ว:</span>
+                                <span class="stat-value ">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">% ความสำเร็จ:</span>
+                                <span class="stat-value">0.00%</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="month-card">
+                        <div class="month-title">🗓️ เมย. 2568</div>
+                        <div class="month-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">ลูกค้าใหม่:</span>
+                                <span class="stat-value">80</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">มีเบอร์ติดต่อ:</span>
+                                <span class="stat-value quality">32 (40%)</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">จองรถแล้ว:</span>
+                                <span class="stat-value highlight">1</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">% ความสำเร็จ:</span>
+                                <span class="stat-value">1.25%</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="month-card">
+                        <div class="month-title">🗓️ พค. 2568</div>
+                        <div class="month-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">ลูกค้าใหม่:</span>
+                                <span class="stat-value">47</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">มีเบอร์ติดต่อ:</span>
+                                <span class="stat-value quality">21 (44.7%)</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">จองรถแล้ว:</span>
+                                <span class="stat-value highlight">1</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">% ความสำเร็จ:</span>
+                                <span class="stat-value">2.13%</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="month-card">
+                        <div class="month-title">🗓️ มิย. 2568</div>
+                        <div class="month-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">ลูกค้าใหม่:</span>
+                                <span class="stat-value">51</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">มีเบอร์ติดต่อ:</span>
+                                <span class="stat-value quality">13 (25.5%)</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">จองรถแล้ว:</span>
+                                <span class="stat-value highlight">1</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">% ความสำเร็จ:</span>
+                                <span class="stat-value">1.96%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+</div><div class="tab-content" id="tiktok" style="display: block;">
+<div class="platform-header tiktok">
+<h2>🎵 TikTok Marketing</h2>
+<p class="platform-period" id="ttHeaderPeriod">ช่วงเวลา: เม.ย. - มิ.ย. 2568 | ระยะเวลา: 3 เดือน</p>
+</div>
+<div class="summary-cards">
+<div class="summary-card tiktok">
+<div class="card-number" id="ttTotalLeads">36</div>
+<div class="card-label">ลูกค้าทั้งหมด</div>
+</div>
+<div class="summary-card quality">
+<div class="card-number" id="ttQuality">25%</div>
+<div class="card-label">🎯 Lead คุณภาพ</div>
+</div>
+<div class="summary-card">
+<div class="card-number" id="ttQualityCount">9</div>
+<div class="card-label">มีเบอร์ติดต่อ</div>
+</div>
+<div class="summary-card">
+<div class="card-number" id="ttAvgMonth">12</div>
+<div class="card-label">เฉลี่ยต่อเดือน</div>
+</div>
+<div class="summary-card success">
+<div class="card-number" id="ttBookings">2</div>
+<div class="card-label">จองรถแล้ว</div>
+</div>
+<div class="summary-card">
+<div class="card-number" id="ttConversion">5.56%</div>
+<div class="card-label">อัตราความสำเร็จ</div>
+</div>
+</div>
+<!-- TikTok Booking Details -->
+<div class="charts-section">
+<div class="booking-details">
+<div class="booking-title">
+                        🎉 ลูกค้าที่จองรถผ่าน TikTok (<span id="ttBookingCount">2</span> คัน)
+                    </div>
+<div class="booking-list" id="ttBookingList">
+                    <div class="booking-item">
+                        <div class="booking-customer">Wai Suwaibah</div>
+                        <div class="booking-details-text">
+                            🚗 รุ่นรถ: Ativ<br>
+                            📅 วันที่: 4/5/2568<br>
+                            👤 เซลล์: อานิสา
+                        </div>
+                    </div>
+                
+                    <div class="booking-item">
+                        <div class="booking-customer">ASTON</div>
+                        <div class="booking-details-text">
+                            🚗 รุ่นรถ: Yaris cross<br>
+                            📅 วันที่: 13/5/2568<br>
+                            👤 เซลล์: วรารัตน์
+                        </div>
+                    </div>
+                </div>
+</div>
+<div class="chart-container">
+<div class="chart-title">📊 TikTok - ลูกค้า &amp; Lead คุณภาพรายเดือน</div>
+<canvas id="tiktokChart"></canvas>
+</div>
+</div>
+<div class="monthly-details" id="ttMonthlyDetails">
+                    <div class="month-card">
+                        <div class="month-title">🗓️ เมย. 2568</div>
+                        <div class="month-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">ลูกค้าใหม่:</span>
+                                <span class="stat-value">5</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">มีเบอร์ติดต่อ:</span>
+                                <span class="stat-value quality">0 (0%)</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">จองรถแล้ว:</span>
+                                <span class="stat-value ">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">% ความสำเร็จ:</span>
+                                <span class="stat-value">0.00%</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="month-card">
+                        <div class="month-title">🗓️ พค. 2568</div>
+                        <div class="month-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">ลูกค้าใหม่:</span>
+                                <span class="stat-value">19</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">มีเบอร์ติดต่อ:</span>
+                                <span class="stat-value quality">4 (21.1%)</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">จองรถแล้ว:</span>
+                                <span class="stat-value highlight">2</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">% ความสำเร็จ:</span>
+                                <span class="stat-value">10.53%</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="month-card">
+                        <div class="month-title">🗓️ มิย. 2568</div>
+                        <div class="month-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">ลูกค้าใหม่:</span>
+                                <span class="stat-value">12</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">มีเบอร์ติดต่อ:</span>
+                                <span class="stat-value quality">5 (41.7%)</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">จองรถแล้ว:</span>
+                                <span class="stat-value ">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">% ความสำเร็จ:</span>
+                                <span class="stat-value">0.00%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+</div><div class="footer">
+<p>📅 รายงานจัดทำ: มิถุนายน 2568 | 📍 โตโยต้าพิธานปัตตานี | 📞 Lead คุณภาพ = ลูกค้าที่มีเบอร์ติดต่อได้</p>
+<p style="margin-top: 5px; opacity: 0.8; font-size: 0.8rem;">
+                🖨️ พิมพ์เมื่อ: <span id="printDateTime">-</span> | 
+                💾 ข้อมูลอัพเดทล่าสุด: <span id="lastUpdatedFooter">มิถุนายน 2568</span> |
+                🔧 รองรับข้อมูล 12 เดือน + อัพโหลด Excel (อัตโนมัติ)
+            </p>
+</div></main></div></div></div>
+<header class="top-navbar"><div class="action-buttons-bar" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"><div class="upload-container">
+<input accept=".xlsx,.xls" class="upload-input" id="fileInput" style="display: none;" type="file">
+<div class="upload-input" id="uploadArea" onclick="document.getElementById('fileInput').click();">
+                    📁 คลิกเพื่ออัพโหลดไฟล์ Excel ใหม่<br>
+                    <small style="opacity: 0.7;">รองรับ: .xlsx, .xls | ต้องมี Sheet ชื่อ "facebook" หรือ "tiktok"</small>
+                </div>
+<button class="upload-btn" id="uploadBtn" onclick="processFile()" disabled="">🔄 ประมวลผลข้อมูล</button>
+<button class="upload-btn" onclick="restoreOriginalData()" style="background: linear-gradient(135deg, #6c757d 0%, #495057 100%);">
+                    ↩️ เรียกคืนข้อมูลเดิม
+                </button>
+<div class="last-updated" id="lastUpdated">📅 อัพเดทล่าสุด: 14/7/2568 11:29:16</div>
+</div><div class="share-section">
+<div class="share-info">
+                🌐 แชร์แดชบอร์ดแบบอ่านอย่างเดียว | 📊 ข้อมูลอัพเดทล่าสุด | 🔒 ปลอดภัย
+            </div>
+</div><div class="share-options">
+</div><div class="print-section">
+</div><div class="print-options">
+</div><button class="print-btn" onclick="saveToPDF()">
+            💾 บันทึกเป็น PDF
+        </button><div class="print-group-in-header"></div><button class="print-btn" onclick="printReport('all')">
+                    🖨️ พิมพ์รายงานทั้งหมด
+                </button><div class="print-section">
+<div class="print-info">
+                📄 ขนาด A4 | 💡 PDF หรือพิมพ์ได้ | ⌨️ Ctrl+P = พิมพ์ทั้งหมด | 📊 รองรับ 12 เดือน | 📂 อัพโหลด Excel ได้
+            </div>
+</div><div class="print-options">
+</div><button class="print-btn" onclick="showPrintHelp()" style="background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);">
+                    ❓ วิธีใช้
+                </button></div></header>
+<script>
+        let combinedChart, facebookChart, tiktokChart;
+
+        // ข้อมูลแบบ Dynamic - รองรับทั้ง 12 เดือน
+        let chartData = {
+            facebook: [
+                { month: 'ม.ค. 68', leads: 119, bookings: 1, quality: 34, qualityPercent: 28.6 },
+                { month: 'ก.พ. 68', leads: 202, bookings: 3, quality: 35, qualityPercent: 17.3 },
+                { month: 'มี.ค. 68', leads: 59, bookings: 0, quality: 20, qualityPercent: 33.9 },
+                { month: 'เม.ย. 68', leads: 80, bookings: 1, quality: 32, qualityPercent: 40.0 },
+                { month: 'พ.ค. 68', leads: 45, bookings: 1, quality: 20, qualityPercent: 44.4 },
+                { month: 'มิ.ย. 68', leads: 0, bookings: 0, quality: 0, qualityPercent: 0 }
+            ],
+            tiktok: [
+                { month: 'เม.ย. 68', leads: 5, bookings: 0, quality: 0, qualityPercent: 0 },
+                { month: 'พ.ค. 68', leads: 19, bookings: 2, quality: 4, qualityPercent: 21.1 },
+                { month: 'มิ.ย. 68', leads: 0, bookings: 0, quality: 0, qualityPercent: 0 }
+            ]
+        };
+
+        // ข้อมูลการจองรถ
+        const bookingData = {
+            facebook: [
+                { customer: 'Saku Wan', car: 'Yaris', date: '31/1/2568', sales: 'วรารัตน์' },
+                { customer: 'มัง ช่างลุกมาน', car: 'Revo D', date: '10/2/2568', sales: 'มูฮำหมัด' },
+                { customer: 'Wawee Sensana', car: 'Ativ', date: '26/2/2568', sales: 'อานิสา' },
+                { customer: 'Saifu', car: 'Revo Z', date: '27/2/2568', sales: 'ชาริณีย์' },
+                { customer: 'ลูกค้าเดือนเมษายน', car: '(รอข้อมูล)', date: 'เมษายน 2568', sales: '(รอข้อมูล)' },
+                { customer: 'ลูกค้าเดือนพฤษภาคม', car: '(รอข้อมูล)', date: 'พฤษภาคม 2568', sales: '(รอข้อมูล)' }
+            ],
+            tiktok: [
+                { customer: 'Wai Suwaibah', car: 'Ativ', date: '4/5/2568', sales: 'อานิสา' },
+                { customer: 'ASTON', car: 'Yaris cross', date: '13/5/2568', sales: 'วรารัตน์' }
+            ]
+        };
+
+        // ชื่อเดือนภาษาไทยทั้ง 12 เดือน
+        const thaiMonthNames = [
+            'ม.ค. 68', 'ก.พ. 68', 'มี.ค. 68', 'เม.ย. 68', 'พ.ค. 68', 'มิ.ย. 68',
+            'ก.ค. 68', 'ส.ค. 68', 'ก.ย. 68', 'ต.ค. 68', 'พ.ย. 68', 'ธ.ค. 68'
+        ];
+
+        const thaiMonthFullNames = [
+            'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
+            'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+        ];
+
+        // ฟังก์ชันคำนวณสถิติแบบ Dynamic
+        function calculateStats() {
+            const fbStats = calculatePlatformStats(chartData.facebook);
+            const ttStats = calculatePlatformStats(chartData.tiktok);
+            
+            return {
+                facebook: fbStats,
+                tiktok: ttStats,
+                total: {
+                    leads: fbStats.totalLeads + ttStats.totalLeads,
+                    quality: fbStats.totalQuality + ttStats.totalQuality,
+                    bookings: fbStats.totalBookings + ttStats.totalBookings,
+                    months: Math.max(fbStats.activeMonths, ttStats.activeMonths),
+                    qualityPercent: ((fbStats.totalQuality + ttStats.totalQuality) / (fbStats.totalLeads + ttStats.totalLeads) * 100) || 0
+                }
+            };
+        }
+
+        function calculatePlatformStats(data) {
+            const totalLeads = data.reduce((sum, month) => sum + month.leads, 0);
+            const totalQuality = data.reduce((sum, month) => sum + month.quality, 0);
+            const totalBookings = data.reduce((sum, month) => sum + month.bookings, 0);
+            const activeMonths = data.filter(month => month.leads > 0).length;
+            const qualityPercent = totalLeads > 0 ? (totalQuality / totalLeads * 100) : 0;
+            const conversionPercent = totalLeads > 0 ? (totalBookings / totalLeads * 100) : 0;
+            const avgPerMonth = activeMonths > 0 ? Math.round(totalLeads / activeMonths) : 0;
+
+            return {
+                totalLeads, totalQuality, totalBookings, activeMonths,
+                qualityPercent: Math.round(qualityPercent * 10) / 10,
+                conversionPercent: Math.round(conversionPercent * 100) / 100,
+                avgPerMonth
+            };
+        }
+
+        // ฟังก์ชันอัพเดทข้อมูลทั้งหมด
+        function updateAllDisplays() {
+            const stats = calculateStats();
+            updateOverviewDisplay(stats);
+            updateFacebookDisplay(stats.facebook);
+            updateTikTokDisplay(stats.tiktok);
+            updateCharts();
+            updateMonthlyDetails();
+            updateBookingLists();
+        }
+
+        function updateOverviewDisplay(stats) {
+            // อัพเดทตัวเลขหลัก
+            document.getElementById('overviewTotal').textContent = stats.total.leads;
+            document.getElementById('overviewFacebook').textContent = stats.facebook.totalLeads;
+            document.getElementById('overviewTikTok').textContent = stats.tiktok.totalLeads;
+            document.getElementById('overviewSuccess').textContent = stats.total.bookings;
+            document.getElementById('overviewQuality').textContent = stats.total.qualityPercent.toFixed(1) + '%';
+            document.getElementById('overviewMonthCount').textContent = `(${stats.total.months} เดือน)`;
+
+            // อัพเดท Quality Meters
+            document.getElementById('fbQualityPercent').innerHTML = `${stats.facebook.qualityPercent}% ${stats.facebook.qualityPercent > 25 ? '↗️' : ''}`;
+            document.getElementById('fbQualityRatio').textContent = `${stats.facebook.totalQuality}/${stats.facebook.totalLeads}`;
+            document.getElementById('fbPeriodText').textContent = `(${stats.facebook.activeMonths} เดือน)`;
+            
+            document.getElementById('ttQualityPercent').textContent = stats.tiktok.qualityPercent + '%';
+            document.getElementById('ttQualityRatio').textContent = `${stats.tiktok.totalQuality}/${stats.tiktok.totalLeads}`;
+            document.getElementById('ttPeriodText').textContent = `(${stats.tiktok.activeMonths} เดือน)`;
+            
+            document.getElementById('overallQualityPercent').textContent = stats.total.qualityPercent.toFixed(1) + '%';
+            document.getElementById('overallQualityRatio').textContent = `${stats.total.quality}/${stats.total.leads}`;
+
+            // อัพเดทอัตราการแปลง
+            document.getElementById('fbConversionRate').textContent = stats.facebook.conversionPercent + '%';
+            document.getElementById('ttConversionRate').textContent = stats.tiktok.conversionPercent + '%';
+            
+            // อัพเดท Conversion Bars
+            const maxConversion = Math.max(stats.facebook.conversionPercent, stats.tiktok.conversionPercent);
+            if (maxConversion > 0) {
+                document.getElementById('fbConversionBar').style.width = (stats.facebook.conversionPercent / maxConversion * 100) + '%';
+                document.getElementById('ttConversionBar').style.width = (stats.tiktok.conversionPercent / maxConversion * 100) + '%';
+            }
+
+            // อัพเดทสถิติเพิ่มเติม
+            const totalActiveMonths = stats.total.months;
+            document.getElementById('totalMonthsDisplay').textContent = `${totalActiveMonths} เดือน`;
+            document.getElementById('avgLeadsPerMonth').textContent = totalActiveMonths > 0 ? Math.round(stats.total.leads / totalActiveMonths) + ' คน' : '0 คน';
+            document.getElementById('avgQualityPerMonth').textContent = totalActiveMonths > 0 ? Math.round(stats.total.quality / totalActiveMonths) + ' คน' : '0 คน';
+            document.getElementById('avgBookingsPerMonth').textContent = totalActiveMonths > 0 ? (stats.total.bookings / totalActiveMonths).toFixed(1) + ' คัน' : '0 คัน';
+
+            // อัพเดทช่วงวันที่
+            updateDateRanges(stats);
+        }
+
+        function updateFacebookDisplay(fbStats) {
+            document.getElementById('fbTotalLeads').textContent = fbStats.totalLeads;
+            document.getElementById('fbQuality').textContent = fbStats.qualityPercent + '%';
+            document.getElementById('fbQualityCount').textContent = fbStats.totalQuality;
+            document.getElementById('fbAvgMonth').textContent = fbStats.avgPerMonth;
+            document.getElementById('fbBookings').textContent = fbStats.totalBookings;
+            document.getElementById('fbConversion').textContent = fbStats.conversionPercent + '%';
+            document.getElementById('fbBookingCount').textContent = fbStats.totalBookings;
+        }
+
+        function updateTikTokDisplay(ttStats) {
+            document.getElementById('ttTotalLeads').textContent = ttStats.totalLeads;
+            document.getElementById('ttQuality').textContent = ttStats.qualityPercent + '%';
+            document.getElementById('ttQualityCount').textContent = ttStats.totalQuality;
+            document.getElementById('ttAvgMonth').textContent = ttStats.avgPerMonth;
+            document.getElementById('ttBookings').textContent = ttStats.totalBookings;
+            document.getElementById('ttConversion').textContent = ttStats.conversionPercent + '%';
+            document.getElementById('ttBookingCount').textContent = ttStats.totalBookings;
+        }
+
+        function updateDateRanges(stats) {
+            // หาช่วงวันที่สำหรับแต่ละ platform
+            const fbData = chartData.facebook.filter(m => m.leads > 0);
+            const ttData = chartData.tiktok.filter(m => m.leads > 0);
+            
+            let fbRange = '', ttRange = '', overallRange = '';
+            
+            if (fbData.length > 0) {
+                const fbStart = fbData[0].month.replace(' 68', '');
+                const fbEnd = fbData[fbData.length - 1].month.replace(' 68', '');
+                fbRange = fbStart === fbEnd ? `${fbStart}` : `${fbStart} - ${fbEnd}`;
+            }
+            
+            if (ttData.length > 0) {
+                const ttStart = ttData[0].month.replace(' 68', '');
+                const ttEnd = ttData[ttData.length - 1].month.replace(' 68', '');
+                ttRange = ttStart === ttEnd ? `${ttStart}` : `${ttStart} - ${ttEnd}`;
+            }
+
+            // หาช่วงรวม
+            const allData = [...fbData, ...ttData].sort((a, b) => {
+                const monthOrder = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+                return monthOrder.indexOf(a.month.replace(' 68', '')) - monthOrder.indexOf(b.month.replace(' 68', ''));
+            });
+            
+            if (allData.length > 0) {
+                const overallStart = allData[0].month.replace(' 68', '');
+                const overallEnd = allData[allData.length - 1].month.replace(' 68', '');
+                overallRange = overallStart === overallEnd ? `${overallStart}` : `${overallStart} - ${overallEnd}`;
+            }
+
+            // อัพเดท UI
+            document.getElementById('dataPeriodDisplay').textContent = `${overallRange} 2568 (${stats.total.months} เดือน)`;
+            document.getElementById('dateRangeDisplay').textContent = `${overallRange} 2568`;
+            document.getElementById('fbDateRange').textContent = `${fbRange} 2568 (${stats.facebook.activeMonths} เดือน)`;
+            document.getElementById('ttDateRange').textContent = `${ttRange} 2568 (${stats.tiktok.activeMonths} เดือน)`;
+            document.getElementById('fbHeaderPeriod').textContent = `ช่วงเวลา: ${fbRange} 2568 | ระยะเวลา: ${stats.facebook.activeMonths} เดือน`;
+            document.getElementById('ttHeaderPeriod').textContent = `ช่วงเวลา: ${ttRange} 2568 | ระยะเวลา: ${stats.tiktok.activeMonths} เดือน`;
+
+            // อัพเดทข้อความสรุป
+            document.getElementById('fbSummaryText').textContent = 
+                `${stats.facebook.totalLeads} leads, ${stats.facebook.totalBookings} bookings (${stats.facebook.conversionPercent}%), ${stats.facebook.totalQuality} คุณภาพ (${stats.facebook.qualityPercent}%)`;
+            document.getElementById('ttSummaryText').textContent = 
+                `${stats.tiktok.totalLeads} leads, ${stats.tiktok.totalBookings} bookings (${stats.tiktok.conversionPercent}%), ${stats.tiktok.totalQuality} คุณภาพ (${stats.tiktok.qualityPercent}%)`;
+        }
+
+        function updateMonthlyDetails() {
+            updatePlatformMonthlyDetails('facebook', 'fbMonthlyDetails');
+            updatePlatformMonthlyDetails('tiktok', 'ttMonthlyDetails');
+        }
+
+        function updatePlatformMonthlyDetails(platform, containerId) {
+            const container = document.getElementById(containerId);
+            const data = chartData[platform];
+            
+            let html = '';
+            data.forEach(month => {
+                const hasData = month.leads > 0;
+                const cardClass = hasData ? 'month-card' : 'month-card no-data';
+                
+                html += `
+                    <div class="${cardClass}">
+                        <div class="month-title">🗓️ ${month.month.replace('68', '2568').replace('.', '')}</div>
+                        <div class="month-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">ลูกค้าใหม่:</span>
+                                <span class="stat-value">${month.leads}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">มีเบอร์ติดต่อ:</span>
+                                <span class="stat-value quality">${month.quality} (${month.qualityPercent}%)</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">จองรถแล้ว:</span>
+                                <span class="stat-value ${month.bookings > 0 ? 'highlight' : ''}">${month.bookings}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">% ความสำเร็จ:</span>
+                                <span class="stat-value">${month.leads > 0 ? (month.bookings / month.leads * 100).toFixed(2) : 0}%</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function updateBookingLists() {
+            updatePlatformBookingList('facebook', 'fbBookingList');
+            updatePlatformBookingList('tiktok', 'ttBookingList');
+        }
+
+        function updatePlatformBookingList(platform, containerId) {
+            const container = document.getElementById(containerId);
+            const bookings = bookingData[platform];
+            
+            let html = '';
+            bookings.forEach(booking => {
+                html += `
+                    <div class="booking-item">
+                        <div class="booking-customer">${booking.customer}</div>
+                        <div class="booking-details-text">
+                            🚗 รุ่นรถ: ${booking.car}<br>
+                            📅 วันที่: ${booking.date}<br>
+                            👤 เซลล์: ${booking.sales}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // ฟังก์ชันการเปลี่ยน Tab
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            setTimeout(() => {
+                if (tabName === 'overview') {
+                    createCombinedChart();
+                } else if (tabName === 'facebook') {
+                    createFacebookChart();
+                } else if (tabName === 'tiktok') {
+                    createTikTokChart();
+                }
+            }, 100);
+        }
+
+        // ฟังก์ชันสร้างกราฟ - รองรับข้อมูลแบบ Dynamic
+        function createCombinedChart() {
+            if (combinedChart) combinedChart.destroy();
+            
+            const ctx = document.getElementById('combinedChart').getContext('2d');
+            
+            // สร้างข้อมูลสำหรับ 12 เดือน
+            const labels = thaiMonthNames.map(m => m.replace(' 68', ''));
+            const fbData = new Array(12).fill(0);
+            const ttData = new Array(12).fill(0);
+            
+            // เติมข้อมูล Facebook
+            chartData.facebook.forEach(month => {
+                const index = thaiMonthNames.indexOf(month.month);
+                if (index !== -1) fbData[index] = month.leads;
+            });
+            
+            // เติมข้อมูล TikTok
+            chartData.tiktok.forEach(month => {
+                const index = thaiMonthNames.indexOf(month.month);
+                if (index !== -1) ttData[index] = month.leads;
+            });
+            
+            combinedChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Facebook',
+                            data: fbData,
+                            backgroundColor: 'rgba(24, 119, 242, 0.8)',
+                            borderColor: 'rgb(24, 119, 242)',
+                            borderWidth: 2,
+                            borderRadius: 5
+                        },
+                        {
+                            label: 'TikTok',
+                            data: ttData,
+                            backgroundColor: 'rgba(255, 0, 80, 0.8)',
+                            borderColor: 'rgb(255, 0, 80)',
+                            borderWidth: 2,
+                            borderRadius: 5
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                font: { size: 14, weight: 'bold' }
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'ข้อมูลรายเดือนปี 2568 (ระบบรองรับ 12 เดือน)',
+                            font: { size: 12 }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                            ticks: { font: { size: 12 } }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { size: 12 } }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createFacebookChart() {
+            if (facebookChart) facebookChart.destroy();
+            
+            const ctx = document.getElementById('facebookChart').getContext('2d');
+            facebookChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: chartData.facebook.map(d => d.month.replace(' 68', '')),
+                    datasets: [
+                        {
+                            label: 'ลูกค้าใหม่',
+                            data: chartData.facebook.map(d => d.leads),
+                            borderColor: 'rgb(24, 119, 242)',
+                            backgroundColor: 'rgba(24, 119, 242, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Lead คุณภาพ',
+                            data: chartData.facebook.map(d => d.quality),
+                            borderColor: 'rgb(155, 89, 182)',
+                            backgroundColor: 'rgba(155, 89, 182, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'จองรถแล้ว',
+                            data: chartData.facebook.map(d => d.bookings),
+                            borderColor: 'rgb(46, 204, 113)',
+                            backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { font: { size: 14, weight: 'bold' } }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                            ticks: { font: { size: 12 } }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createTikTokChart() {
+            if (tiktokChart) tiktokChart.destroy();
+            
+            const ctx = document.getElementById('tiktokChart').getContext('2d');
+            tiktokChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: chartData.tiktok.map(d => d.month.replace(' 68', '')),
+                    datasets: [
+                        {
+                            label: 'ลูกค้าใหม่',
+                            data: chartData.tiktok.map(d => d.leads),
+                            borderColor: 'rgb(255, 0, 80)',
+                            backgroundColor: 'rgba(255, 0, 80, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Lead คุณภาพ',
+                            data: chartData.tiktok.map(d => d.quality),
+                            borderColor: 'rgb(155, 89, 182)',
+                            backgroundColor: 'rgba(155, 89, 182, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'จองรถแล้ว',
+                            data: chartData.tiktok.map(d => d.bookings),
+                            borderColor: 'rgb(46, 204, 113)',
+                            backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { font: { size: 14, weight: 'bold' } }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                            ticks: { font: { size: 12 } }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateCharts() {
+            // รีเฟรชกราฟทั้งหมด
+            setTimeout(() => {
+                createCombinedChart();
+                
+                const activeTab = document.querySelector('.tab.active');
+                if (activeTab) {
+                    if (activeTab.textContent.includes('Facebook')) {
+                        createFacebookChart();
+                    } else if (activeTab.textContent.includes('TikTok')) {
+                        createTikTokChart();
+                    }
+                }
+            }, 100);
+        }
+
+        // ฟังก์ชันการพิมพ์รายงาน
+        function printReport(section = 'all') {
+            preparePrintLayout(section);
+            
+            const sectionNames = {
+                'all': 'รายงานทั้งหมด',
+                'overview': 'ภาพรวม',
+                'facebook': 'Facebook',
+                'tiktok': 'TikTok'
+            };
+            
+            const confirmation = confirm(
+                `🖨️ พิมพ์${sectionNames[section]}\n\n` +
+                `📋 สิ่งที่จะพิมพ์:\n` +
+                `• ${getSectionDescription(section)}\n\n` +
+                `💡 เคล็ดลับ:\n` +
+                `• เลือก "Save as PDF" เพื่อบันทึกเป็นไฟล์\n` +
+                `• ปรับแต่ง Margins เป็น "Minimum"\n` +
+                `• เลือก "More settings" → "Print headers and footers" = OFF\n\n` +
+                `🔧 ระบบรองรับข้อมูลทั้ง 12 เดือน\n\n` +
+                `ต้องการดำเนินการต่อหรือไม่?`
+            );
+            
+            if (confirmation) {
+                setTimeout(() => {
+                    window.print();
+                }, 100);
+            }
+        }
+
+        function preparePrintLayout(section) {
+            const now = new Date();
+            document.getElementById('printDateTime').textContent = 
+                `${now.toLocaleDateString('th-TH')} ${now.toLocaleTimeString('th-TH')}`;
+
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('print-active');
+            });
+
+            switch(section) {
+                case 'all':
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.add('print-active');
+                    });
+                    break;
+                case 'overview':
+                    document.getElementById('overview').classList.add('print-active');
+                    break;
+                case 'facebook':
+                    document.getElementById('facebook').classList.add('print-active');
+                    break;
+                case 'tiktok':
+                    document.getElementById('tiktok').classList.add('print-active');
+                    break;
+            }
+
+            const originalTitle = document.title;
+            const sectionTitles = {
+                'all': 'รายงานการติดตามลูกค้ามุ่งหวัง - ทั้งหมด',
+                'overview': 'รายงานการติดตามลูกค้ามุ่งหวัง - ภาพรวม',
+                'facebook': 'รายงานการติดตามลูกค้ามุ่งหวัง - Facebook',
+                'tiktok': 'รายงานการติดตามลูกค้ามุ่งหวัง - TikTok'
+            };
+            document.title = sectionTitles[section] || originalTitle;
+
+            setTimeout(() => {
+                document.title = originalTitle;
+            }, 1000);
+        }
+
+        function getSectionDescription(section) {
+            const descriptions = {
+                'all': 'ภาพรวม + Facebook + TikTok + กราฟทั้งหมด + รายละเอียดทุกเดือน (รองรับ 12 เดือน)',
+                'overview': 'สรุปผลรวม + การเปรียบเทียบ + กราฟภาพรวม + สถิติ Dynamic',
+                'facebook': 'ข้อมูล Facebook + กราฟ + รายละเอียดรายเดือน + ลูกค้าที่จอง',
+                'tiktok': 'ข้อมูล TikTok + กราฟ + รายละเอียดรายเดือน + ลูกค้าที่จอง'
+            };
+            return descriptions[section] || 'ไม่ระบุ';
+        }
+
+        function showPrintHelp() {
+            const isMobile = isMobileDevice();
+            const helpText = isMobile ? 
+                '📱 คู่มือการใช้งานบนมือถือ\n\n' :
+                '💻 คู่มือการใช้งานระบบครบวงจร\n\n';
+            
+            alert(helpText +
+                  '📂 การอัพโหลดไฟล์ Excel:\n' +
+                  '1. คลิกที่พื้นที่อัพโหลดหรือลาก Excel มาวาง\n' +
+                  '2. เลือกไฟล์ .xlsx หรือ .xls\n' +
+                  '3. กดปุ่ม "ประมวลผลข้อมูล"\n' +
+                  '4. รอระบบประมวลผลและแสดงผลใหม่\n\n' +
+                  '🔗 การแชร์แดชบอร์ด:\n' +
+                  '1. "สร้างลิงก์แชร์" - สร้างลิงก์แชร์พิเศษ\n' +
+                  '2. "คัดลอกลิงก์ปัจจุบัน" - คัดลอกลิงก์ที่เปิดอยู่\n' +
+                  '3. ส่งลิงก์ให้ผู้อื่นเพื่อดูแดชบอร์ด\n' +
+                  '4. ผู้รับลิงก์จะดูข้อมูลได้อย่างเดียว (ไม่แก้ไขได้)\n\n' +
+                  '📋 โครงสร้างไฟล์ Excel ที่รองรับ:\n' +
+                  '• Sheet ชื่อ "facebook" หรือ "tiktok"\n' +
+                  '• คอลัมน์ A = ลำดับ\n' +
+                  '• คอลัมน์ B = วันที่ (Facebook: d/m/yy, TikTok: เดือนไทย)\n' +
+                  '• คอลัมน์ D = เบอร์ติดต่อ\n' +
+                  '• คอลัมน์ J = สถานะการจอง\n\n' +
+                  '🖨️ การพิมพ์รายงาน:\n' +
+                  '1. เลือกส่วนที่ต้องการพิมพ์\n' +
+                  '2. คลิกปุ่ม "พิมพ์..." ที่ต้องการ\n' +
+                  '3. เลือก "Save as PDF" หรือเครื่องพิมพ์\n' +
+                  '4. ปรับแต่ง: Layout = Portrait, Paper = A4\n' +
+                  '5. Margins = Minimum\n\n' +
+                  (isMobile ? 
+                    '📱 เคล็ดลับมือถือ:\n' +
+                    '• หมุนหน้าจอเป็นแนวนอนเพื่อดูกราฟได้ชัดขึ้น\n' +
+                    '• แตะปุ่มค้างไว้เพื่อดูตัวเลือกเพิ่มเติม\n' +
+                    '• ใช้การแชร์ลิงก์แทน QR Code\n' +
+                    '• ปรับซูมด้วยนิ้วเพื่อดูรายละเอียด\n\n' :
+                    '⌨️ ทางลัด: กด Ctrl+P เพื่อพิมพ์ทั้งหมด\n\n'
+                  ) +
+                  '🔧 ความสามารถระบบ:\n' +
+                  '• รองรับข้อมูลทั้ง 12 เดือน\n' +
+                  '• คำนวณสถิติอัตโนมัติ\n' +
+                  '• อัพโหลด Excel และประมวลผลอัตโนมัติ\n' +
+                  '• แชร์แดชบอร์ดแบบลิงก์อย่างเดียว\n' +
+                  '• รองรับภาษาไทยในการแชร์\n' +
+                  '• รองรับมือถือ 9:16 ได้เต็มรูปแบบ\n' +
+                  '• รองรับ Drag & Drop\n' +
+                  '• Responsive Design ทุกขนาดหน้าจอ\n\n' +
+                  '💾 บันทึกเป็น PDF เพื่อแชร์ง่าย\n' +
+                  '📱 รองรับการใช้งานบนมือถือ 100%\n' +
+                  '🔒 ระบบแชร์ปลอดภัย ไม่เก็บข้อมูลบนเซิร์ฟเวอร์\n\n' +
+                  '🧪 หากมีปัญหาการแชร์ ให้เรียกใช้ testShare() ใน Console\n' +
+                  '🔗 ระบบแชร์รองรับข้อมูลภาษาไทยเต็มรูปแบบ');
+        }
+
+        // เริ่มต้นระบบ
+        document.addEventListener('DOMContentLoaded', function() {
+            // ตรวจสอบว่าเป็นโหมดดูหรือไม่
+            checkViewerMode();
+            
+            updateAllDisplays();
+            
+            setTimeout(() => {
+                createCombinedChart();
+            }, 500);
+        });
+
+        // ==============================================
+        // ระบบการแชร์แดชบอร์ด
+        // ==============================================
+
+        // ตรวจสอบโหมดดู
+        function checkViewerMode() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const sharedData = urlParams.get('data');
+            const viewMode = urlParams.get('view');
+            
+            if (viewMode === 'shared' && sharedData) {
+                enableViewerMode();
+                loadSharedData(sharedData);
+            }
+        }
+
+        // เปิดใช้โหมดดู
+        function enableViewerMode() {
+            document.body.classList.add('viewer-mode');
+            document.getElementById('viewerNotice').style.display = 'block';
+            
+            // อัพเดทเวลาในโหมดดู
+            const now = new Date();
+            document.getElementById('sharedDataDate').textContent = 
+                now.toLocaleDateString('th-TH') + ' ' + now.toLocaleTimeString('th-TH');
+        }
+
+        // โหลดข้อมูลที่แชร์มา
+        function loadSharedData(encodedData) {
+            try {
+                // Decode Base64 และ Parse JSON
+                const jsonString = atob(encodedData);
+                const sharedChartData = JSON.parse(jsonString);
+                
+                // อัพเดทข้อมูล
+                chartData = sharedChartData.chartData;
+                if (sharedChartData.bookingData) {
+                    bookingData.facebook = sharedChartData.bookingData.facebook || bookingData.facebook;
+                    bookingData.tiktok = sharedChartData.bookingData.tiktok || bookingData.tiktok;
+                }
+                
+                // อัพเดทการแสดงผล
+                updateAllDisplays();
+                
+                console.log('✅ โหลดข้อมูลแชร์สำเร็จ');
+            } catch (error) {
+                console.error('❌ ไม่สามารถโหลดข้อมูลแชร์ได้:', error);
+                alert('❌ ลิงก์แชร์ไม่ถูกต้องหรือเสียหาย');
+            }
+        }
+
+        // สร้างลิงก์แชร์
+        function generateShareLink() {
+            try {
+                // เตรียมข้อมูลสำหรับแชร์
+                const shareData = {
+                    chartData: chartData,
+                    bookingData: bookingData,
+                    timestamp: new Date().toISOString(),
+                    version: '1.0'
+                };
+                
+                // แปลงเป็น JSON และ Encode เป็น Base64
+                const jsonString = JSON.stringify(shareData);
+                const encodedData = btoa(jsonString);
+                
+                // สร้าง URL
+                const baseUrl = window.location.origin + window.location.pathname;
+                const shareUrl = `${baseUrl}?view=shared&data=${encodedData}`;
+                
+                // ตรวจสอบความยาว URL
+                if (shareUrl.length > 8000) {
+                    alert('⚠️ ข้อมูลมีขนาดใหญ่เกินไป\nระบบจะแชร์เฉพาะข้อมูลสำคัญ');
+                    
+                    // สร้างข้อมูลแบบย่อ
+                    const compactData = {
+                        chartData: {
+                            facebook: chartData.facebook.map(m => ({
+                                month: m.month,
+                                leads: m.leads,
+                                quality: m.quality,
+                                bookings: m.bookings,
+                                qualityPercent: m.qualityPercent
+                            })),
+                            tiktok: chartData.tiktok.map(m => ({
+                                month: m.month,
+                                leads: m.leads,
+                                quality: m.quality,
+                                bookings: m.bookings,
+                                qualityPercent: m.qualityPercent
+                            }))
+                        },
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    const compactJson = JSON.stringify(compactData);
+                    const compactEncoded = btoa(compactJson);
+                    const compactUrl = `${baseUrl}?view=shared&data=${compactEncoded}`;
+                    
+                    copyToClipboard(compactUrl);
+                } else {
+                    copyToClipboard(shareUrl);
+                }
+                
+                alert('✅ สร้างลิงก์แชร์สำเร็จ!\n\n📋 ลิงก์ได้ถูกคัดลอกไปที่คลิปบอร์ดแล้ว\n🔗 ส่งลิงก์นี้ให้ผู้อื่นเพื่อดูแดชบอร์ด\n\n⚠️ หมายเหตุ: ผู้ที่ได้รับลิงก์จะดูข้อมูลได้อย่างเดียว ไม่สามารถแก้ไขได้');
+                
+            } catch (error) {
+                console.error('Error generating share link:', error);
+                alert('❌ ไม่สามารถสร้างลิงก์แชร์ได้\nกรุณาลองใหม่อีกครั้ง');
+            }
+        }
+
+        // คัดลอกลิงก์ปัจจุบัน
+        function copyCurrentLink() {
+            const currentUrl = window.location.href;
+            copyToClipboard(currentUrl);
+            alert('✅ คัดลอกลิงก์ปัจจุบันแล้ว!\n\n📋 ลิงก์อยู่ในคลิปบอร์ดแล้ว');
+        }
+
+        // ฟังก์ชันคัดลอกไปคลิปบอร์ด
+        function copyToClipboard(text) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text);
+            } else {
+                // Fallback สำหรับเบราว์เซอร์เก่า
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            }
+        }
+
+        // สร้าง QR Code
+        function generateQRCode() {
+            // สร้างลิงก์แชร์ก่อน
+            try {
+                const shareData = {
+                    chartData: chartData,
+                    timestamp: new Date().toISOString()
+                };
+                
+                const jsonString = JSON.stringify(shareData);
+                const encodedData = btoa(jsonString);
+                const baseUrl = window.location.origin + window.location.pathname;
+                const shareUrl = `${baseUrl}?view=shared&data=${encodedData}`;
+                
+                // ล้าง QR Code เก่า
+                document.getElementById('qrcode').innerHTML = '';
+                
+                // สร้าง QR Code ใหม่
+                QRCode.toCanvas(document.getElementById('qrcode'), shareUrl, {
+                    width: 256,
+                    height: 256,
+                    colorDark: '#2c3e50',
+                    colorLight: '#ffffff',
+                    margin: 2
+                }, function (error) {
+                    if (error) {
+                        console.error('Error generating QR code:', error);
+                        document.getElementById('qrcode').innerHTML = 
+                            '<p style="color: #e74c3c;">❌ ไม่สามารถสร้าง QR Code ได้</p>';
+                    }
+                });
+                
+                // แสดง Modal
+                document.getElementById('qrModal').style.display = 'block';
+                
+            } catch (error) {
+                console.error('Error generating QR code:', error);
+                alert('❌ ไม่สามารถสร้าง QR Code ได้');
+            }
+        }
+
+        // ปิด QR Modal
+        function closeQRModal() {
+            document.getElementById('qrModal').style.display = 'none';
+        }
+
+        // ดาวน์โหลด QR Code
+        function downloadQR() {
+            const canvas = document.querySelector('#qrcode canvas');
+            if (canvas) {
+                const link = document.createElement('a');
+                link.download = 'toyota-dashboard-qr.png';
+                link.href = canvas.toDataURL();
+                link.click();
+                
+                alert('✅ ดาวน์โหลด QR Code สำเร็จ!');
+            } else {
+                alert('❌ ไม่พบ QR Code ให้ดาวน์โหลด');
+            }
+        }
+
+        // แชร์โซเชียล
+        function shareToSocial() {
+            // สร้างลิงก์แชร์
+            const shareData = {
+                chartData: chartData,
+                timestamp: new Date().toISOString()
+            };
+            
+            const jsonString = JSON.stringify(shareData);
+            const encodedData = btoa(jsonString);
+            const baseUrl = window.location.origin + window.location.pathname;
+            const shareUrl = `${baseUrl}?view=shared&data=${encodedData}`;
+            
+            const stats = calculateStats();
+            const shareText = `📊 รายงานการติดตามลูกค้ามุ่งหวัง - โตโยต้าพิธานปัตตานี\n\n` +
+                            `💯 ลูกค้าทั้งหมด: ${stats.total.leads} คน\n` +
+                            `🎯 Lead คุณภาพ: ${stats.total.qualityPercent.toFixed(1)}%\n` +
+                            `🚗 จองรถแล้ว: ${stats.total.bookings} คัน\n\n` +
+                            `📈 ดูรายงานฉบับเต็ม:`;
+            
+            // ตัวเลือกการแชร์
+            const options = [
+                {
+                    name: 'LINE',
+                    icon: '💬',
+                    url: `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`
+                },
+                {
+                    name: 'Facebook',
+                    icon: '📘',
+                    url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`
+                },
+                {
+                    name: 'Twitter',
+                    icon: '🐦',
+                    url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`
+                },
+                {
+                    name: 'Email',
+                    icon: '📧',
+                    url: `mailto:?subject=${encodeURIComponent('รายงานแดชบอร์ด - โตโยต้าพิธานปัตตานี')}&body=${encodeURIComponent(shareText + '\n\n' + shareUrl)}`
+                }
+            ];
+            
+            let optionText = '🚀 เลือกช่องทางที่ต้องการแชร์:\n\n';
+            options.forEach((option, index) => {
+                optionText += `${index + 1}. ${option.icon} ${option.name}\n`;
+            });
+            optionText += '\n0. ❌ ยกเลิก';
+            
+            const choice = prompt(optionText);
+            const choiceNum = parseInt(choice);
+            
+            if (choiceNum >= 1 && choiceNum <= options.length) {
+                window.open(options[choiceNum - 1].url, '_blank', 'width=600,height=400');
+            }
+        }
+
+        // ปิด Modal เมื่อคลิกนอกพื้นที่
+        window.onclick = function(event) {
+            const modal = document.getElementById('qrModal');
+            if (event.target === modal) {
+                closeQRModal();
+            }
+        };
+
+        // ฟังก์ชันจัดการการแชร์แบบ Native (หากรองรับ)
+        async function nativeShare() {
+            if (navigator.share) {
+                try {
+                    const stats = calculateStats();
+                    await navigator.share({
+                        title: 'รายงานแดชบอร์ด - โตโยต้าพิธานปัตตานี',
+                        text: `📊 ลูกค้าทั้งหมด: ${stats.total.leads} คน | 🎯 Lead คุณภาพ: ${stats.total.qualityPercent.toFixed(1)}% | 🚗 จองรถ: ${stats.total.bookings} คัน`,
+                        url: window.location.href
+                    });
+                } catch (error) {
+                    console.log('การแชร์ถูกยกเลิก', error);
+                }
+            } else {
+                shareToSocial();
+            }
+        }
+
+        // ฟังก์ชันเพิ่มข้อมูลเดือนใหม่ (สำหรับในอนาคต)
+        function addMonthData(platform, month, leads, quality, bookings) {
+            const monthData = {
+                month: month,
+                leads: leads,
+                quality: quality,
+                bookings: bookings,
+                qualityPercent: leads > 0 ? Math.round((quality / leads * 100) * 10) / 10 : 0
+            };
+            
+            // หาตำแหน่งที่ถูกต้องตามลำดับเดือน
+            const monthIndex = thaiMonthNames.indexOf(month);
+            let insertIndex = chartData[platform].length;
+            
+            for (let i = 0; i < chartData[platform].length; i++) {
+                const existingMonthIndex = thaiMonthNames.indexOf(chartData[platform][i].month);
+                if (monthIndex < existingMonthIndex) {
+                    insertIndex = i;
+                    break;
+                }
+            }
+            
+            chartData[platform].splice(insertIndex, 0, monthData);
+            updateAllDisplays();
+        }
+
+        // ตัวอย่างการใช้งาน: เพิ่มข้อมูลเดือนกรกฎาคม
+        // addMonthData('facebook', 'ก.ค. 68', 150, 45, 2);
+        // addMonthData('tiktok', 'ก.ค. 68', 30, 8, 1);
+
+        // ==============================================
+        // ระบบการอัพโหลดและประมวลผลไฟล์ Excel
+        // ==============================================
+
+        // ตัวแปรเก็บข้อมูลสำรอง
+        let originalChartData = JSON.parse(JSON.stringify(chartData));
+
+        // ฟังก์ชันจัดการการอัพโหลดไฟล์
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                handleFileSelection(file);
+            }
+        });
+
+        // ฟังก์ชัน fallback สำหรับการคัดลอก
+        function fallbackCopyToClipboard(text) {
+            try {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-999999px';
+                textArea.style.top = '-999999px';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                
+                const successful = document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                if (successful) {
+                    console.log('✅ คัดลอกลิงก์สำเร็จ (legacy method)');
+                } else {
+                    throw new Error('execCommand failed');
+                }
+            } catch (error) {
+                console.error('Fallback copy failed:', error);
+                // แสดงลิงก์ให้ผู้ใช้คัดลอกเอง
+                prompt('ไม่สามารถคัดลอกอัตโนมัติได้ กรุณาคัดลอกลิงก์นี้:', text);
+            }
+        }
+
+        // ฟังก์ชันตรวจสอบว่าเป็นมือถือหรือไม่
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                   (window.innerWidth <= 768 && window.innerHeight <= 1024);
+        }
+
+        // ปรับปรุงการแสดงผลตามขนาดหน้าจอ
+        function adjustDisplayForScreen() {
+            const isMobile = isMobileDevice();
+            const isPortrait = window.innerHeight > window.innerWidth;
+            
+            if (isMobile && isPortrait) {
+                // เพิ่ม class พิเศษสำหรับมือถือแนวตั้ง
+                document.body.classList.add('mobile-portrait');
+                
+                // ปรับขนาดฟอนต์หลัก
+                document.documentElement.style.fontSize = '14px';
+                
+                // ปรับการแสดงผลกราฟ
+                if (typeof Chart !== 'undefined') {
+                    Chart.defaults.font.size = 10;
+                    Chart.defaults.responsive = true;
+                    Chart.defaults.maintainAspectRatio = false;
+                }
+            } else {
+                document.body.classList.remove('mobile-portrait');
+                document.documentElement.style.fontSize = '16px';
+                
+                if (typeof Chart !== 'undefined') {
+                    Chart.defaults.font.size = 12;
+                }
+            }
+        }
+
+        // ฟังก์ชันทดสอบการแชร์
+        function testShare() {
+            console.log('🧪 ทดสอบระบบการแชร์...');
+            
+            try {
+                const testData = {
+                    chartData: {
+                        facebook: [{ month: 'ทดสอบ', leads: 100, quality: 30, bookings: 5, qualityPercent: 30 }],
+                        tiktok: [{ month: 'ทดสอบ', leads: 20, quality: 5, bookings: 2, qualityPercent: 25 }]
+                    },
+                    timestamp: new Date().toISOString()
+                };
+                
+                const jsonString = JSON.stringify(testData);
+                const encodedData = btoa(unescape(encodeURIComponent(jsonString)));
+                const baseUrl = window.location.origin + window.location.pathname;
+                const testUrl = `${baseUrl}?view=shared&data=${encodedData}`;
+                
+                console.log('✅ URL ทดสอบ:', testUrl);
+                console.log('📏 ความยาว URL:', testUrl.length);
+                
+                // ทดสอบการ decode
+                const decoded = decodeURIComponent(escape(atob(encodedData)));
+                const parsed = JSON.parse(decoded);
+                console.log('✅ ทดสอบ decode สำเร็จ:', parsed);
+                
+                alert('✅ ระบบการแชร์ทำงานปกติ!\n\n' + 
+                      `📏 ความยาว URL: ${testUrl.length} ตัวอักษร\n` +
+                      `📊 ข้อมูลทดสอบ: ${jsonString.length} bytes`);
+                
+            } catch (error) {
+                console.error('❌ ระบบการแชร์มีปัญหา:', error);
+                alert('❌ ระบบการแชร์มีปัญหา:\n\n' + error.message);
+            }
+        }
+
+        // เรียกใช้การปรับแต่งเมื่อโหลดหน้าและเมื่อหมุนหน้าจอ
+        window.addEventListener('load', adjustDisplayForScreen);
+        window.addEventListener('resize', adjustDisplayForScreen);
+        window.addEventListener('orientationchange', function() {
+            setTimeout(adjustDisplayForScreen, 100);
+        });
+
+        // ทำความสะอาดฟังก์ชันที่ไม่ใช้
+        console.log('🚀 ระบบการแชร์แดชบอร์ดพร้อมใช้งาน (แบบลิงก์อย่างเดียว)');
+
+        function handleFileSelection(file) {
+            const fileName = file.name;
+            const fileExt = fileName.split('.').pop().toLowerCase();
+            
+            if (!['xlsx', 'xls'].includes(fileExt)) {
+                alert('❌ รองรับเฉพาะไฟล์ .xlsx, .xls เท่านั้น');
+                document.getElementById('fileInput').value = '';
+                return;
+            }
+            
+            document.getElementById('uploadArea').innerHTML = `
+                📁 เลือกไฟล์: ${fileName}<br>
+                <small style="opacity: 0.7; color: #28a745;">✅ ไฟล์พร้อมประมวลผล</small>
+            `;
+            document.getElementById('uploadBtn').disabled = false;
+        }
+
+        // Drag & Drop support
+        const uploadArea = document.getElementById('uploadArea');
+        
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                const file = files[0];
+                document.getElementById('fileInput').files = files;
+                handleFileSelection(file);
+            }
+        });
+
+        async function processFile() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('กรุณาเลือกไฟล์ก่อน');
+                return;
+            }
+
+            // แสดง loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('uploadBtn').disabled = true;
+            document.getElementById('uploadBtn').textContent = '⏳ กำลังประมวลผล...';
+            document.getElementById('loadingText').textContent = 'กำลังอ่านไฟล์ Excel...';
+
+            try {
+                // อ่านไฟล์
+                const arrayBuffer = await file.arrayBuffer();
+                document.getElementById('loadingText').textContent = 'กำลังประมวลผลข้อมูล...';
+                
+                // ประมวลผล Excel
+                const result = await processExcelFile(arrayBuffer);
+                
+                if (result && (result.facebook.length > 0 || result.tiktok.length > 0)) {
+                    // สำรองข้อมูลเดิม
+                    originalChartData = JSON.parse(JSON.stringify(chartData));
+                    
+                    // อัพเดทข้อมูลใหม่
+                    if (result.facebook.length > 0) {
+                        chartData.facebook = result.facebook;
+                    }
+                    if (result.tiktok.length > 0) {
+                        chartData.tiktok = result.tiktok;
+                    }
+                    
+                    document.getElementById('loadingText').textContent = 'กำลังอัพเดทการแสดงผล...';
+                    
+                    // อัพเดท UI
+                    updateAllDisplays();
+                    
+                    // อัพเดทเวลา
+                    const now = new Date();
+                    document.getElementById('lastUpdated').textContent = 
+                        `📅 อัพเดทล่าสุด: ${now.toLocaleDateString('th-TH')} ${now.toLocaleTimeString('th-TH')}`;
+                    
+                    const fbCount = result.facebook.reduce((sum, month) => sum + month.leads, 0);
+                    const ttCount = result.tiktok.reduce((sum, month) => sum + month.leads, 0);
+                    const fbQuality = result.facebook.reduce((sum, month) => sum + month.quality, 0);
+                    const ttQuality = result.tiktok.reduce((sum, month) => sum + month.quality, 0);
+                    const fbMonths = result.facebook.filter(m => m.leads > 0).length;
+                    const ttMonths = result.tiktok.filter(m => m.leads > 0).length;
+                    
+                    setTimeout(() => {
+                        alert('✅ อัพเดทข้อมูลสำเร็จ! 🎉\n\n' + 
+                              `📘 Facebook: ${fbMonths} เดือน (${fbCount} leads, ${fbQuality} มีเบอร์)\n` +
+                              `🎵 TikTok: ${ttMonths} เดือน (${ttCount} leads, ${ttQuality} มีเบอร์)\n\n` +
+                              `📊 รวมทั้งหมด: ${fbCount + ttCount} leads\n\n` +
+                              `🔄 ระบบได้อัพเดทกราฟและสถิติทั้งหมดแล้ว`);
+                    }, 500);
+                    
+                } else {
+                    let errorMsg = '❌ ไม่พบข้อมูลที่ถูกต้องในไฟล์\n\n';
+                    errorMsg += '🔍 กรุณาตรวจสอบ:\n';
+                    errorMsg += '• รูปแบบไฟล์ (.xlsx, .xls)\n';
+                    errorMsg += '• ชื่อ Sheet ต้องมี "facebook" หรือ "tiktok"\n';
+                    errorMsg += '• โครงสร้างข้อมูลต้องมีคอลัมน์: ลำดับ, วันที่, ชื่อลูกค้า, เบอร์ติดต่อ\n';
+                    errorMsg += '• ข้อมูลต้องเริ่มจากแถวที่ 4-5 (หลัง header)\n\n';
+                    errorMsg += `📋 รูปแบบที่รองรับ:\n`;
+                    errorMsg += `• Facebook: วันที่แบบ d/m/yy (เช่น 3/1/25)\n`;
+                    errorMsg += `• TikTok: ชื่อเดือนภาษาไทย (เช่น เมษายน)`;
+                    alert(errorMsg);
+                }
+                
+            } catch (error) {
+                console.error('Error processing file:', error);
+                let errorDetails = error.message || 'ไม่ทราบสาเหตุ';
+                
+                alert('❌ เกิดข้อผิดพลาดในการประมวลผลไฟล์\n\n📝 รายละเอียด: ' + errorDetails + 
+                      '\n\n💡 คำแนะนำ:\n• ตรวจสอบว่าไฟล์ไม่เสียหาย\n• ใช้ไฟล์ในรูปแบบ .xlsx, .xls\n• ตรวจสอบโครงสร้างข้อมูลให้ตรงกับไฟล์ต้นฉบับ\n• ลองปิดไฟล์ Excel ก่อนอัพโหลด');
+            } finally {
+                // ซ่อน loading
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('uploadBtn').disabled = false;
+                document.getElementById('uploadBtn').textContent = '🔄 ประมวลผลข้อมูล';
+                
+                // รีเซ็ต upload area
+                document.getElementById('uploadArea').innerHTML = `
+                    📁 คลิกเพื่ออัพโหลดไฟล์ Excel ใหม่<br>
+                    <small style="opacity: 0.7;">รองรับ: .xlsx, .xls | ต้องมี Sheet ชื่อ "facebook" หรือ "tiktok"</small>
+                `;
+                document.getElementById('fileInput').value = '';
+                document.getElementById('uploadBtn').disabled = true;
+            }
+        }
+
+        // ฟังก์ชันประมวลผลไฟล์ Excel
+        async function processExcelFile(arrayBuffer) {
+            const workbook = XLSX.read(arrayBuffer, {
+                cellStyles: true,
+                cellFormulas: true,
+                cellDates: true,
+                cellNF: true,
+                sheetStubs: true
+            });
+
+            console.log('📊 Sheet names found:', workbook.SheetNames);
+
+            const result = {
+                facebook: [],
+                tiktok: []
+            };
+
+            // ประมวลผล Facebook sheet
+            const facebookSheetNames = workbook.SheetNames.filter(name => 
+                name.toLowerCase().includes('facebook') || 
+                name.toLowerCase().includes('fb') ||
+                name.toLowerCase().includes('เฟสบุ๊ค') ||
+                name.includes('68') // อาจจะเป็น "facebook 68"
+            );
+            
+            if (facebookSheetNames.length > 0) {
+                console.log(`📘 Processing Facebook sheet: ${facebookSheetNames[0]}`);
+                const facebookData = processSheet(workbook.Sheets[facebookSheetNames[0]], 'Facebook');
+                result.facebook = facebookData;
+                console.log(`📘 Facebook: พบ ${facebookData.length} เดือน`);
+            } else {
+                // ลองหา sheet ที่มีข้อมูล Facebook โดยดูจากเนื้อหา
+                for (let sheetName of workbook.SheetNames) {
+                    const sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 });
+                    const hasPageReference = sheetData.some(row => 
+                        row && row.some(cell => 
+                            cell && cell.toString().toLowerCase().includes('เพจ')
+                        )
+                    );
+                    if (hasPageReference) {
+                        console.log(`📘 Found Facebook data in sheet: ${sheetName}`);
+                        const facebookData = processSheet(workbook.Sheets[sheetName], 'Facebook');
+                        result.facebook = facebookData;
+                        break;
+                    }
+                }
+            }
+
+            // ประมวลผล TikTok sheet
+            const tiktokSheetNames = workbook.SheetNames.filter(name => 
+                name.toLowerCase().includes('tiktok') || 
+                name.toLowerCase().includes('tt') ||
+                name.toLowerCase().includes('ติกต๊อก') ||
+                (name.includes('68') && !name.toLowerCase().includes('facebook'))
+            );
+            
+            if (tiktokSheetNames.length > 0) {
+                console.log(`🎵 Processing TikTok sheet: ${tiktokSheetNames[0]}`);
+                const tiktokData = processSheet(workbook.Sheets[tiktokSheetNames[0]], 'TikTok');
+                result.tiktok = tiktokData;
+                console.log(`🎵 TikTok: พบ ${tiktokData.length} เดือน`);
+            } else {
+                // ลองหา sheet ที่มีข้อมูล TikTok โดยดูจากเนื้อหา
+                for (let sheetName of workbook.SheetNames) {
+                    if (sheetName.toLowerCase().includes('facebook')) continue; // ข้าม Facebook sheet
+                    
+                    const sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 });
+                    const hasTikTokReference = sheetData.some(row => 
+                        row && row.some(cell => 
+                            cell && (cell.toString().toLowerCase().includes('tiktok') ||
+                                   cell.toString().includes('เมษายน') ||
+                                   cell.toString().includes('พฤษภาคม'))
+                        )
+                    );
+                    if (hasTikTokReference) {
+                        console.log(`🎵 Found TikTok data in sheet: ${sheetName}`);
+                        const tiktokData = processSheet(workbook.Sheets[sheetName], 'TikTok');
+                        result.tiktok = tiktokData;
+                        break;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        // ฟังก์ชันประมวลผล Sheet
+        function processSheet(worksheet, platform) {
+            console.log(`🔍 Processing ${platform} sheet...`);
+            const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+            console.log(`📊 Total rows in ${platform}:`, jsonData.length);
+            
+            const monthlyData = {};
+
+            // หา header row
+            let headerRowIndex = -1;
+            for (let i = 0; i < Math.min(10, jsonData.length); i++) {
+                if (jsonData[i] && jsonData[i][0] && 
+                    (jsonData[i][0].toString().includes('ลำดับ') || 
+                     jsonData[i][0].toString().includes('ลำดับ'))) {
+                    headerRowIndex = i;
+                    break;
+                }
+            }
+
+            if (headerRowIndex === -1) {
+                console.warn(`ไม่พบ header row ใน ${platform} sheet`);
+                // ลองใช้แถวที่ 3-4 เป็น default
+                headerRowIndex = 3;
+            }
+
+            // ประมวลผลข้อมูล
+            const dataStartRow = headerRowIndex + 1;
+            
+            for (let i = dataStartRow; i < jsonData.length; i++) {
+                if (jsonData[i] && jsonData[i][0] && 
+                    (typeof jsonData[i][0] === 'number' || !isNaN(parseInt(jsonData[i][0])))) {
+                    
+                    const record = {
+                        ลำดับ: jsonData[i][0],
+                        วันที่: jsonData[i][1], // คอลัมน์ B = index 1
+                        ชื่อลูกค้า: jsonData[i][2],
+                        เบอร์ติดต่อ: jsonData[i][3], // คอลัมน์ D = index 3
+                        รุ่นรถ: jsonData[i][4],
+                        เซลล์: jsonData[i][5],
+                        จองแล้ว: jsonData[i][9] // คอลัมน์ J = index 9
+                    };
+
+                    if (record.วันที่) {
+                        try {
+                            const date = parseExcelDate(record.วันที่, platform);
+                            if (date && !isNaN(date.getTime())) {
+                                const monthKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+                                
+                                if (!monthlyData[monthKey]) {
+                                    monthlyData[monthKey] = {
+                                        month: formatMonthDisplay(date),
+                                        leads: 0,
+                                        bookings: 0,
+                                        quality: 0,
+                                        qualityPercent: 0
+                                    };
+                                }
+
+                                monthlyData[monthKey].leads++;
+
+                                // ตรวจสอบ Lead คุณภาพ (มีเบอร์ติดต่อ)
+                                if (hasValidPhone(record.เบอร์ติดต่อ)) {
+                                    monthlyData[monthKey].quality++;
+                                }
+
+                                // ตรวจสอบการจอง
+                                if (record.จองแล้ว === '/' || 
+                                    (record.จองแล้ว && record.จองแล้ว.toString().trim() !== '')) {
+                                    monthlyData[monthKey].bookings++;
+                                }
+                            }
+                        } catch (e) {
+                            console.warn('Invalid date:', record.วันที่, e);
+                        }
+                    }
+                }
+            }
+
+            // คำนวณเปอร์เซ็นต์ Lead คุณภาพ
+            Object.keys(monthlyData).forEach(monthKey => {
+                const data = monthlyData[monthKey];
+                data.qualityPercent = data.leads > 0 ? 
+                    parseFloat(((data.quality / data.leads) * 100).toFixed(1)) : 0;
+            });
+
+            const sortedData = Object.keys(monthlyData).sort().map(monthKey => monthlyData[monthKey]);
+            console.log(`${platform} processed data:`, sortedData);
+            return sortedData;
+        }
+
+        function parseExcelDate(dateValue, platform) {
+            if (dateValue instanceof Date) {
+                return dateValue;
+            } else if (typeof dateValue === 'number') {
+                // Excel serial date
+                const baseDate = new Date(1900, 0, 1);
+                const daysSince = dateValue - 1;
+                return new Date(baseDate.getTime() + daysSince * 24 * 60 * 60 * 1000);
+            } else if (typeof dateValue === 'string') {
+                const dateStr = dateValue.toString().trim();
+                
+                if (platform === 'Facebook') {
+                    // รูปแบบ d/m/yy เช่น "3/1/25"
+                    if (dateStr.includes('/')) {
+                        const parts = dateStr.split('/');
+                        if (parts.length === 3) {
+                            const day = parseInt(parts[0]);
+                            const month = parseInt(parts[1]);
+                            let year = parseInt(parts[2]);
+                            
+                            // แปลง yy เป็น yyyy
+                            if (year < 100) {
+                                year = year < 50 ? 2000 + year : 1900 + year;
+                            }
+                            
+                            if (day >= 1 && day <= 31 && month >= 1 && month <= 12 && year >= 2020) {
+                                return new Date(year, month - 1, day);
+                            }
+                        }
+                    }
+                } else if (platform === 'TikTok') {
+                    // รูปแบบชื่อเดือนภาษาไทย
+                    const thaiMonths = {
+                        'มกราคม': 0, 'กุมภาพันธ์': 1, 'มีนาคม': 2,
+                        'เมษายน': 3, 'พฤษภาคม': 4, 'มิถุนายน': 5,
+                        'กรกฎาคม': 6, 'สิงหาคม': 7, 'กันยายน': 8,
+                        'ตุลาคม': 9, 'พฤศจิกายน': 10, 'ธันวาคม': 11
+                    };
+                    
+                    for (const [thaiMonth, monthIndex] of Object.entries(thaiMonths)) {
+                        if (dateStr.includes(thaiMonth)) {
+                            return new Date(2025, monthIndex, 1); // สมมติปี 2025 (พ.ศ. 2568)
+                        }
+                    }
+                }
+                
+                // ลองแปลงแบบปกติ
+                const parsedDate = new Date(dateStr);
+                if (!isNaN(parsedDate.getTime())) {
+                    return parsedDate;
+                }
+            }
+            return null;
+        }
+
+        function formatMonthDisplay(date) {
+            const monthNames = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 
+                              'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+            const year = date.getFullYear() + 543; // แปลงเป็น พ.ศ.
+            const shortYear = year.toString().slice(-2); // เอาแค่ 2 หลัก
+            return `${monthNames[date.getMonth()]} ${shortYear}`;
+        }
+
+        function hasValidPhone(phone) {
+            return phone && 
+                   phone !== null && 
+                   phone !== '' && 
+                   phone !== undefined &&
+                   phone.toString().trim() !== '' &&
+                   phone.toString().trim() !== '-' &&
+                   phone.toString().trim() !== 'N/A';
+        }
+
+        // ฟังก์ชันเรียกคืนข้อมูลเดิม
+        function restoreOriginalData() {
+            if (confirm('🔄 ต้องการเรียกคืนข้อมูลเดิมหรือไม่?\n\nการดำเนินการนี้จะลบข้อมูลที่อัพโหลดล่าสุด')) {
+                chartData = JSON.parse(JSON.stringify(originalChartData));
+                updateAllDisplays();
+                document.getElementById('lastUpdated').textContent = '📅 เรียกคืนข้อมูลเดิมแล้ว';
+                alert('✅ เรียกคืนข้อมูลเดิมเรียบร้อยแล้ว');
+            }
+        }
+    </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+async function saveToPDF() {
+    const { jsPDF } = window.jspdf;
+    const container = document.querySelector('.container');
+    const canvas = await html2canvas(container, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff'
+    });
+    const imgData = canvas.toDataURL('image/jpeg', 1.0);
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pageWidth = 210;
+    const pageHeight = 297;
+    const imgProps = pdf.getImageProperties(imgData);
+    const imgWidth = pageWidth;
+    const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
+    let heightLeft = imgHeight;
+    let position = 0;
+    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight;
+    while (heightLeft > 0) {
+        position -= pageHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+    }
+    pdf.save('dashboard-toyota-report.pdf');
+}
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+document.getElementById('excelFile')?.addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    const data = evt.target.result;
+    const workbook = XLSX.read(data, { type: 'binary' });
+    let firstSheet = workbook.SheetNames[0];
+    let jsonData = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet], { header: 1 });
+
+    // For demo: show first 12 rows in alert
+    let preview = jsonData.slice(0, 13).map(row => row.join(" | ")).join("\n");
+    alert("แสดงข้อมูล 12 เดือนแรกจากไฟล์:\n\n" + preview);
+
+    // TODO: Replace alert with rendering into dashboard dynamically
+  };
+  reader.readAsBinaryString(file);
+});
+</script>
+<script>
+function exportCleanDashboard() {
+    const clone = document.documentElement.cloneNode(true);
+    const removeList = [
+        '#uploader-panel', '#upload-section', 'input[type=file]',
+        '#export-section', '#download-section', 'script', 'button'
+    ];
+    removeList.forEach(selector => {
+        clone.querySelectorAll(selector).forEach(el => el.remove());
+    });
+    const blob = new Blob(['<!DOCTYPE html>' + clone.outerHTML], {type: 'text/html'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'dashboard_view.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+</script>
+<script>
+function exportCleanDashboard() {
+    const clone = document.documentElement.cloneNode(true);
+    const removeList = [
+        '#uploader-panel', '#upload-section', 'input[type=file]',
+        '#download-section', 'script', '#export-button',
+        'button[onclick*="print"]'
+    ];
+    removeList.forEach(selector => {
+        clone.querySelectorAll(selector).forEach(el => el.remove());
+    });
+    const blob = new Blob(['<!DOCTYPE html>' + clone.outerHTML], {type: 'text/html'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'dashboard_view.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+</script>
+<div id="export-section" style="text-align: center; padding: 30px;">
+<button id="export-button" onclick="exportCleanDashboard()" style="padding: 12px 24px; background-color: #1b5e20; color: white; font-weight: bold; font-size: 16px; border: none; border-radius: 6px; cursor: pointer;">
+    📤 บันทึกเวอร์ชันสำหรับแชร์
+  </button>
+</div>
+<script>
+function exportCleanDashboard() {
+    const clone = document.documentElement.cloneNode(true);
+    const removeList = [
+        '#uploader-panel', '#upload-section', 'input[type=file]',
+        '#download-section', 'script', '#export-button', '#export-section',
+        'button[onclick*="print"]'
+    ];
+    removeList.forEach(selector => {
+        clone.querySelectorAll(selector).forEach(el => el.remove());
+    });
+    const blob = new Blob(['<!DOCTYPE html>' + clone.outerHTML], {type: 'text/html'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'dashboard_view.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+</script>
+<div id="share-section" style="text-align: center; padding: 30px;">
+<button id="share-button" onclick="shareDashboard()" style="padding: 12px 24px; background-color: #1565c0; color: white; font-weight: bold; font-size: 16px; border: none; border-radius: 6px; cursor: pointer;">
+    📤 สร้างลิงก์แดชบอร์ด (สำหรับแชร์)
+  </button>
+<div id="share-result" style="margin-top: 20px; font-size: 15px; color: #333;"></div>
+</div>
+<div style="text-align:center; margin-top: 10px;">
+<button onclick="setGithubToken()" style="padding: 8px 16px; background-color: #777; color: white; border: none; border-radius: 5px; cursor: pointer;">
+    🔑 ตั้งค่า GitHub Token
+  </button>
+</div>
+<script>
+const GITHUB_USERNAME = "nonguest-work";
+const REPO_NAME = "dashborad-marketiing";
+const TARGET_FOLDER = "view";
+
+function setGithubToken() {
+  const token = prompt("กรุณาวาง GitHub Token ของคุณ:");
+  if (token) {
+    localStorage.setItem("GITHUB_TOKEN", token);
+    alert("บันทึก GitHub Token เรียบร้อยแล้ว");
+  }
+}
+
+async function uploadHTMLToGitHub(filename, htmlContent) {
+  const GITHUB_TOKEN = localStorage.getItem("GITHUB_TOKEN");
+  if (!GITHUB_TOKEN) {
+    alert("ยังไม่มี GitHub Token ใน LocalStorage\nกรุณาใส่ token ก่อนใช้งาน");
+    return;
+  }
+
+  const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${TARGET_FOLDER}/${filename}`;
+  const base64Content = btoa(unescape(encodeURIComponent(htmlContent)));
+
+  const response = await fetch(apiUrl, {
+    method: "PUT",
+    headers: {
+      Authorization: `token ${GITHUB_TOKEN}`,
+      Accept: "application/vnd.github.v3+json",
+    },
+    body: JSON.stringify({
+      message: `Create ${filename}`,
+      content: base64Content
+    }),
+  });
+
+  const result = await response.json();
+  if (result.content && result.content.path) {
+    return `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/${result.content.path}`;
+  } else {
+    throw new Error(result.message || "อัปโหลดไม่สำเร็จ");
+  }
+}
+
+async function shareDashboard() {
+  const dashboardHTML = document.documentElement.outerHTML;
+  const filename = "dashboard_" + new Date().toISOString().replace(/[:.]/g, "-") + ".html";
+  try {
+    const url = await uploadHTMLToGitHub(filename, dashboardHTML);
+    alert("สร้างลิงก์สำเร็จ:\n" + url);
+        navigator.clipboard.writeText(url).then(() => console.log("คัดลอกลิงก์แล้ว"));
+    const linkDisplay = document.getElementById("link-result");
+    if (linkDisplay) {
+      linkDisplay.innerHTML = '<a href="' + url + '" target="_blank">' + url + '</a>';
+    }
+  } catch (err) {
+    alert("เกิดข้อผิดพลาด: " + err.message);
+  }
+}
+</script>
+<div id="link-result" style="margin-top:10px;"></div><button onclick="copySharedLink()">📋 คัดลอกลิงก์</button><script>
+function copySharedLink() {
+  const linkEl = document.querySelector("#link-result a");
+  if (linkEl) {
+    const url = linkEl.href;
+    navigator.clipboard.writeText(url)
+      .then(() => alert("คัดลอกลิงก์เรียบร้อยแล้ว!"))
+      .catch(() => alert("เกิดข้อผิดพลาดในการคัดลอก"));
+  } else {
+    alert("ยังไม่มีลิงก์ให้คัดลอก");
+  }
+}
+</script>
+
+</body></html>
